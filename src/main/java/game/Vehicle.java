@@ -16,12 +16,33 @@ import static java.lang.Math.*;
 public class Vehicle extends Object {
     private float speed;
     private float acceleration;
+    private float max_speed;
+    private float max_reverse;
+            
+    private float velocityX;
+    private float velocityY;
+    private float xPos;
+    private float yPos;
     
     public Vehicle(String name, GL3 gl, Shader shader, String filePath) {
         super(name, gl, shader, filePath);
         
         speed = 0;
         acceleration = 0;
+        max_speed = 0.001f;
+        max_reverse = -0.001f;
+    }
+    
+    public void steering() {
+        double degreesPerFrame = 180 / (2*30); //180 degrees over 30 fps in 2s
+        velocityX = (float) (velocityX * -1 * Math.cos(degreesPerFrame));
+        velocityY = (float) (velocityY * -1 * Math.sin(degreesPerFrame));
+        double yChange = Math.sin(degreesPerFrame) * velocityY;
+        double xChange = Math.cos(degreesPerFrame) * velocityX;
+        xPos += xChange; //change x position
+        yPos += yChange; //change y position
+    
+        translate(xPos, yPos, 0.0f);
     }
     
     public void move() {
@@ -30,14 +51,14 @@ public class Vehicle extends Object {
         
         if(acceleration == 0 && speed != 0) {
             if(speed > 0) {
-                speed -= 0.005f;
+                speed -= 0.0002f;
             } else {
-                speed += 0.005f;
+                speed += 0.0002f;
             }
-            
-            if(speed < 0.02f && speed > -0.02f) {
-                speed = 0;
-            }
+        }
+        
+        if(speed > max_speed && speed < max_reverse) {
+            speed = 0;
         }
         
         translate(speed, 0.0f, 0.0f);
@@ -72,6 +93,25 @@ public class Vehicle extends Object {
     }
 
     public void setAcceleration(float acceleration) {
-        this.acceleration = acceleration;
+        if (speed < 0) {
+            this.acceleration = 5 * acceleration;
+        }
+        else this.acceleration = acceleration;
+    }
+    
+    public void setDesacceleration(float acceleration) {
+        if (speed != 0) {
+            if (speed > 0) {
+                this.acceleration = - acceleration;
+            }
+            else this.acceleration = acceleration;
+        }
+    }
+    
+    public void setBreak(float acceleration) {
+        if (speed > 0) {
+            this.acceleration = acceleration;
+        }
+        else this.acceleration = acceleration / 10;
     }
 }

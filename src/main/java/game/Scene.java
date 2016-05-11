@@ -149,17 +149,27 @@ public class Scene implements GLEventListener {
     
     private void processInput() {
         if(input.isTruckMoveForward()) {
-            truck.setAcceleration(0.001f);
+            truck.setAcceleration(0.0002f);
+        }
+        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+            truck.setDesacceleration(0.0002f);
         }
         
         if(input.isTruckMoveBackward()) {
-            truck.setAcceleration(-0.001f);
+            truck.setBreak(-0.001f);
+        }
+        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+            truck.setDesacceleration(0.0004f);
         }
         
-        if(!input.isTruckMoveForward() &&
-            !input.isTruckMoveBackward()) {
-            truck.setAcceleration(0f);
-        }
+       // if(!input.isTruckMoveForward() &&
+        //    !input.isTruckMoveBackward()) {
+       //     truck.setAcceleration(0f);
+       // }
+       
+       if (input.isTruckMoveRight() || input.isTruckMoveLeft()) {
+           truck.steering();
+       }
         
         if(input.isCameraRotateLeft()) {
             camera.spinY(-1.0f);

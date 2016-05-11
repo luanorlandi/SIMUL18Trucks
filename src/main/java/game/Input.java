@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
@@ -18,7 +19,7 @@ import javax.swing.JFrame;
  *
  * @author Orlandi
  */
-public class Input implements KeyListener, MouseListener, MouseWheelListener {
+public class Input implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static Input input;
     
     private Robot robot = null;
@@ -30,6 +31,8 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
     
     private boolean truckMoveForward;
     private boolean truckMoveBackward;
+    private boolean truckMoveLeft;
+    private boolean truckMoveRight;
     
     private boolean cameraRotateLeft;
     private boolean cameraRotateRight;
@@ -90,7 +93,8 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
         
         truckMoveForward = false;
         truckMoveBackward = false;
-        
+        truckMoveLeft = false;
+        truckMoveRight = false;
         cameraRotateLeft = false;
         cameraRotateRight = false;
         
@@ -135,6 +139,8 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
                 case KeyEvent.VK_S: truckMoveBackward = true; break;
                 case KeyEvent.VK_Q: cameraRotateLeft = true; break;
                 case KeyEvent.VK_E: cameraRotateRight = true; break;
+                case KeyEvent.VK_A: truckMoveLeft = true; break;
+                case KeyEvent.VK_D: truckMoveRight = true; break;
             }
         } else {
             switch (ke.getKeyCode()) {
@@ -196,6 +202,8 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
                 case KeyEvent.VK_S: truckMoveBackward = false; break;
                 case KeyEvent.VK_Q: cameraRotateLeft = false; break;
                 case KeyEvent.VK_E: cameraRotateRight = false; break;
+                case KeyEvent.VK_A: truckMoveLeft = false; break;
+                case KeyEvent.VK_D: truckMoveRight = false; break;
             }
         } else {
             switch (ke.getKeyCode()) {
@@ -341,12 +349,30 @@ public class Input implements KeyListener, MouseListener, MouseWheelListener {
     public boolean isTruckMoveBackward() {
         return truckMoveBackward;
     }
+    
+    public boolean isTruckMoveLeft() {
+        return truckMoveLeft;
+    }
 
+    public boolean isTruckMoveRight() {
+        return truckMoveRight;
+    }
+    
     public boolean isCameraRotateLeft() {
         return cameraRotateLeft;
     }
 
     public boolean isCameraRotateRight() {
         return cameraRotateRight;
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
