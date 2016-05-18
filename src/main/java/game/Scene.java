@@ -18,7 +18,7 @@ public class Scene implements GLEventListener {
     private final Shader shader;
     private GL3 gl;
     
-    private final Illumination illumination;    /* class config for light */
+    private Illumination illumination;    /* class config for light */
     
     private final Input input;
     
@@ -38,7 +38,6 @@ public class Scene implements GLEventListener {
         shader = ShaderFactory.getInstance(
             ShaderFactory.ShaderType.COMPLETE_SHADER);
         
-        illumination = new Illumination();
         
         input = Input.getInstance();
         
@@ -69,7 +68,8 @@ public class Scene implements GLEventListener {
         shader.init(gl);
         shader.bind();
         
-        illumination.init(gl, shader);
+        illumination = new Illumination(gl, shader);
+        illumination.init();
         
         camera = new Camera(gl, shader);
         camera.setPosX(-31.70f);
