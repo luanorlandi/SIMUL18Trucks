@@ -5,8 +5,6 @@
  */
 package game;
 
-import br.usp.icmc.vicg.gl.util.Shader;
-import javax.media.opengl.GL;
 import javax.media.opengl.GL3;
 
 /**
@@ -14,17 +12,15 @@ import javax.media.opengl.GL3;
  * @author Orlandi
  */
 public class Antialiasing {
-    private final Shader shader;
     private final GL3 gl;
     
-    public Antialiasing(GL3 gl, Shader shader) {
+    public Antialiasing(GL3 gl) {
         this.gl = gl;
-        this.shader = shader;
     }
     
     public void init() {
-        gl.glEnable(GL.GL_LINE_SMOOTH);
-        gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glEnable(GL3.GL_POLYGON_SMOOTH);
+        gl.glEnable(GL3.GL_BLEND);
+        gl.glBlendFunc(GL3.GL_SRC_ALPHA, GL3.GL_ONE_MINUS_SRC_ALPHA);
     }
 }
