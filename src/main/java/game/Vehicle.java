@@ -7,7 +7,6 @@ package game;
 
 import br.usp.icmc.vicg.gl.util.Shader;
 import javax.media.opengl.GL3;
-import static java.lang.Math.*;
 
 /**
  *
@@ -24,6 +23,9 @@ public class Vehicle extends Object {
     private float xPos;
     private float yPos;
     
+    private final float cY[];
+    private final float cR[];
+    
     public Vehicle(String name, GL3 gl, Shader shader, String filePath) {
         super(name, gl, shader, filePath);
         
@@ -31,6 +33,20 @@ public class Vehicle extends Object {
         acceleration = 0;
         max_speed = 0.001f;
         max_reverse = -0.001f;
+        
+        cY = new float[5];
+        cY[0] = (float) -2.09687270222880e+002;
+        cY[1] = (float) -1.73677692452703e+000;
+        cY[2] = (float) -2.17934186065177e+000;
+        cY[3] = (float) -7.55762104308736e-002;
+        cY[4] = (float) -8.83708721852949e-004;
+        
+        cR = new float[5];
+        cR[0] = (float) 1.06358436789827e+002;
+        cR[1] = (float) 5.35603485093407e+002;
+        cR[2] = (float) 5.84694281292338e+001;
+        cR[3] = (float) 2.62318796899470e+000;
+        cR[4] = (float) 4.24757612400653e-002;
     }
     
     public void steering() {
@@ -63,21 +79,34 @@ public class Vehicle extends Object {
         
         translate(speed, 0.0f, 0.0f);
         
-        /* move in y */
         float x = this.getPosX();
-        float y;
+        if(x > 0) {
+            x *= -1;
+        }
         
-        y = (float) cos(x/11);  /* frequency */
-        y = (float) y+1;        /* translate in y */
-        y = (float) y/3.4f;     /* amplitude */
+        /* move in y */
+        float y = 0;
         
-        y -= 0.80f;
+        for(int i = 0; i < cY.length; i++) {
+            y += cY[i] * Math.pow(x, i);
+        }
+        
+        y /= 1000;
         this.setPosY(y);
-        /* rotate in z */
         
-        float rotZ = (float) ((-1) * sin(x/11)/(3.4f * 11) * 2000);
-//        System.out.println("angle: " + rotZ);
-//        this.setAngleZ(rotZ);
+        /* rotate in z */
+        float r = 0;
+        
+        for(int i = 0; i < cR.length; i++) {
+            r += cR[i] * Math.pow(x, i);
+        }
+        
+        r /= 1000;
+        
+        if(this.getPosX() > 0) {
+            r *= -1;
+        }
+        this.setAngleX(r);
     }
 
     public float getSpeed() {

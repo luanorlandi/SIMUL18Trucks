@@ -84,10 +84,10 @@ public class Scene implements GLEventListener {
         truck.scale(1.1f);
         truck.translate(-29.00f, 0.0f, -0.79f);
         truck.rotate(0.0f, 90.0f, 0.0f);
-        
+
         objects = new ArrayList<>();
-        objects.add(bridge);
         objects.add(truck);
+        objects.add(bridge);
         
         selected = objects.get(0);
         selectedId = 0;
@@ -122,18 +122,18 @@ public class Scene implements GLEventListener {
     }
     
     public void showObjectsPositions() {
-        System.out.format("%n" + selected.getName() + ": pos(%.2f, %.2f, %.2f)%n",
+        System.out.format("%n" + selected.getName() + ": pos(%.3f, %.3f, %.3f)%n",
                 selected.getPosX(), selected.getPosY(), selected.getPosZ()); 
-        System.out.format("\tangle(%.2f, %.2f, %.2f)%n",
+        System.out.format("\tangle(%.3f, %.3f, %.3f)%n",
                 selected.getAngleX(), selected.getAngleY(), selected.getAngleZ());
-        System.out.format("\tsize(%.2f, %.2f, %.2f)%n",
+        System.out.format("\tsize(%.3f, %.3f, %.3f)%n",
                 selected.getSizeX(), selected.getSizeY(), selected.getSizeZ()); 
         
-        System.out.format("%nCamera: pos(%.2f, %.2f, %.2f)%n",
+        System.out.format("%nCamera: pos(%.3f, %.3f, %.3f)%n",
                 camera.getPosX(), camera.getPosY(), camera.getPosZ()); 
-        System.out.format("\tviewCenter(%.2f, %.2f, %.2f)%n",
+        System.out.format("\tviewCenter(%.3f, %.3f, %.3f)%n",
                 camera.getCenterX(), camera.getCenterY(), camera.getCenterZ());
-        System.out.format("\tviewUp(%.2f, %.2f, %.2f)%n",
+        System.out.format("\tviewUp(%.3f, %.3f, %.3f)%n",
                 camera.getUpX(), camera.getUpY(), camera.getUpZ()); 
     }
     
@@ -180,43 +180,48 @@ public class Scene implements GLEventListener {
         }
         
         if(input.isEditMode()) {
-            if(input.objTansXNeg)   selected.translate(-0.1f, 0f, 0f);
-            if(input.objTansXPos)   selected.translate(0.1f, 0f, 0f);
-            if(input.objTansYNeg)   selected.translate(0f, -0.1f, 0f);
-            if(input.objTansYPos)   selected.translate(0f, 0.1f, 0f);
-            if(input.objTansZNeg)   selected.translate(0f, 0f, -0.1f);
-            if(input.objTansZPos)   selected.translate(0f, 0f, 0.1f);
+            float to = 0.005f;
+            float ro = 0.05f;
+            float tc = 0.05f;
+            float rc = 0.5f;
+            
+            if(input.objTansXNeg)   selected.translate(-to, 0f, 0f);
+            if(input.objTansXPos)   selected.translate(to, 0f, 0f);
+            if(input.objTansYNeg)   selected.translate(0f, -to, 0f);
+            if(input.objTansYPos)   selected.translate(0f, to, 0f);
+            if(input.objTansZNeg)   selected.translate(0f, 0f, -to);
+            if(input.objTansZPos)   selected.translate(0f, 0f, to);
 
-            if(input.objRotXNeg)    selected.rotate(-2.0f, 0f, 0f);
-            if(input.objRotXPos)    selected.rotate(2.0f, 0f, 0f);
-            if(input.objRotYNeg)    selected.rotate(0f, -2.0f, 0f);
-            if(input.objRotYPos)    selected.rotate(0f, 2.0f, 0f);
-            if(input.objRotZPos)    selected.rotate(0f, 0f, -2.0f);
-            if(input.objRotZNeg)    selected.rotate(0f, 0f, 2.0f);
+            if(input.objRotXNeg)    selected.rotate(-ro, 0f, 0f);
+            if(input.objRotXPos)    selected.rotate(ro, 0f, 0f);
+            if(input.objRotYNeg)    selected.rotate(0f, -ro, 0f);
+            if(input.objRotYPos)    selected.rotate(0f, ro, 0f);
+            if(input.objRotZPos)    selected.rotate(0f, 0f, -ro);
+            if(input.objRotZNeg)    selected.rotate(0f, 0f, ro);
 
             if(input.objDec)        selected.scale(0.9f);
             if(input.objInc)        selected.scale(1.1f);
 
-            if(input.camTransXNeg)  camera.translate(-0.1f, 0f, 0f);
-            if(input.camTransXPos)  camera.translate(0.1f, 0f, 0f);
-            if(input.camTransYNeg)  camera.translate(0f, -0.1f, 0f);
-            if(input.camTransYPos)  camera.translate(0f, 0.1f, 0f);
-            if(input.camTransZNeg)  camera.translate(0f, 0f, -0.1f);
-            if(input.camTransZPos)  camera.translate(0f, 0f, 0.1f);
+            if(input.camTransXNeg)  camera.translate(-tc, 0f, 0f);
+            if(input.camTransXPos)  camera.translate(tc, 0f, 0f);
+            if(input.camTransYNeg)  camera.translate(0f, -tc, 0f);
+            if(input.camTransYPos)  camera.translate(0f, tc, 0f);
+            if(input.camTransZNeg)  camera.translate(0f, 0f, -tc);
+            if(input.camTransZPos)  camera.translate(0f, 0f, tc);
 
-            if(input.camRefXNeg)    camera.center(-0.1f, 0f, 0f);
-            if(input.camRefXPos)    camera.center(0.1f, 0f, 0f);
-            if(input.camRefYNeg)    camera.center(0f, -0.1f, 0f);
-            if(input.camRefYPos)    camera.center(0f, 0.1f, 0f);
-            if(input.camRefZNeg)    camera.center(0f, 0f, -0.1f);
-            if(input.camRefZPos)    camera.center(0f, 0f, 0.1f);
+            if(input.camRefXNeg)    camera.center(-tc, 0f, 0f);
+            if(input.camRefXPos)    camera.center(tc, 0f, 0f);
+            if(input.camRefYNeg)    camera.center(0f, -tc, 0f);
+            if(input.camRefYPos)    camera.center(0f, tc, 0f);
+            if(input.camRefZNeg)    camera.center(0f, 0f, -tc);
+            if(input.camRefZPos)    camera.center(0f, 0f, tc);
 
-            if(input.camRotXNeg)    camera.spinX(-1.0f);
-            if(input.camRotXPos)    camera.spinX(1.0f);
-            if(input.camRotYNeg)    camera.spinY(-1.0f);
-            if(input.camRotYPos)    camera.spinY(1.0f);
-            if(input.camRotZNeg)    camera.spinZ(-1.0f);
-            if(input.camRotZPos)    camera.spinZ(1.0f);
+            if(input.camRotXNeg)    camera.spinX(-rc);
+            if(input.camRotXPos)    camera.spinX(rc);
+            if(input.camRotYNeg)    camera.spinY(-rc);
+            if(input.camRotYPos)    camera.spinY(rc);
+            if(input.camRotZNeg)    camera.spinZ(-rc);
+            if(input.camRotZPos)    camera.spinZ(rc);
 
             if(input.scenePositions) showObjectsPositions();
         }
