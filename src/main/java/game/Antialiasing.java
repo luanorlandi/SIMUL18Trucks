@@ -12,13 +12,12 @@ import javax.media.opengl.GL3;
  * @author Orlandi
  */
 public class Antialiasing {
-    private final GL3 gl;
     
-    public Antialiasing(GL3 gl) {
-        this.gl = gl;
+    public Antialiasing() {
+        
     }
     
-    public void init() {
+    public void init(GL3 gl) {
         gl.glEnable(GL3.GL_POLYGON_SMOOTH);
         gl.glEnable(GL3.GL_BLEND);
         gl.glBlendFunc(GL3.GL_SRC_ALPHA, GL3.GL_ONE_MINUS_SRC_ALPHA);

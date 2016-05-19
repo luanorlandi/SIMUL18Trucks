@@ -20,7 +20,7 @@ public class Scene implements GLEventListener {
     
     private final Illumination illumination;    /* class config for light */
     
-    private Antialiasing antialising;
+    private final Antialiasing antialiasing;
     
     private final Input input;
     
@@ -41,6 +41,7 @@ public class Scene implements GLEventListener {
             ShaderFactory.ShaderType.COMPLETE_SHADER);
         
         illumination = new Illumination();
+        antialiasing = new Antialiasing();
         
         input = Input.getInstance();
         
@@ -73,8 +74,7 @@ public class Scene implements GLEventListener {
         
         illumination.init(gl, shader);
         
-        Antialiasing antialiasing = new Antialiasing(gl);
-        antialiasing.init();
+        antialiasing.init(gl);
         
         camera = new Camera(gl, shader);
         camera.setPosX(-31.70f);
