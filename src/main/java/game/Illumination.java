@@ -16,17 +16,11 @@ import javax.media.opengl.GL3;
 public class Illumination {
     private final Light light;
     
-    private final GL3 gl;
-    private final Shader shader;
-    
-    public Illumination(GL3 gl, Shader shader) {
+    public Illumination() {
         light = new Light();
-        
-        this.gl = gl;
-        this.shader = shader;
     }
     
-    public void init() {
+    public void init(GL3 gl, Shader shader) {
         light.setPosition(new float[]{10, 10, 50, 1.0f});
         light.setAmbientColor(new float[]{0.1f, 0.1f, 0.1f, 1.0f});
         light.setDiffuseColor(new float[]{0.75f, 0.75f, 0.75f, 1.0f});
