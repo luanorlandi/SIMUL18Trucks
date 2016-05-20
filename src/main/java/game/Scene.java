@@ -43,7 +43,7 @@ public class Scene implements GLEventListener {
         input = Input.getInstance();
         
         bridgeFilePath = "./model/bridge/bridge.obj";
-        truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
+        truckFilePath = "./model/Wheels/FrontWheels/FrontWheels.obj";
     }
     
     public static Scene getInstance() {
