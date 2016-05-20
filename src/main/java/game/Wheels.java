@@ -5,14 +5,14 @@
  */
 package game;
 
+/**
+ *
+ * @author Henrique
+ */
 import br.usp.icmc.vicg.gl.util.Shader;
 import javax.media.opengl.GL3;
 
-/**
- *
- * @author Orlandi
- */
-public class Vehicle extends Object {
+public class Wheels extends Object {
     private float speed;
     private float acceleration;
     private float max_speed;
@@ -28,7 +28,7 @@ public class Vehicle extends Object {
     
     ;
     
-    public Vehicle(String name, GL3 gl, Shader shader, String filePath) {
+    public Wheels(String name, GL3 gl, Shader shader, String filePath) {
         super(name, gl, shader, filePath);
         
         speed = 0;

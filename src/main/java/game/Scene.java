@@ -26,9 +26,15 @@ public class Scene implements GLEventListener {
     
     private final String bridgeFilePath;
     private final String truckFilePath;
+    private final String frontWheelsPath;
+    private final String backWheels1Path;
+    private final String backWheels2Path;
     
     public Object bridge;
     public Vehicle truck;
+    public Vehicle frontWheels;
+    public Vehicle backWheels1;
+    public Vehicle backWheels2;
     public Object selected;             /* affected by edit mode */
     public int selectedId;              /* position in array objects */
     
@@ -43,7 +49,11 @@ public class Scene implements GLEventListener {
         input = Input.getInstance();
         
         bridgeFilePath = "./model/bridge/bridge.obj";
-        truckFilePath = "./model/Wheels/FrontWheels/FrontWheels.obj";
+        truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
+        frontWheelsPath = "./model/Wheels/FrontWheels/FrontWheels.obj";
+        backWheels1Path = "./model/Wheels/BackWheels1/BackWheels1.obj";
+        backWheels2Path = "./model/Wheels/BackWheels2/BackWheels2.obj";
+        
     }
     
     public static Scene getInstance() {
@@ -82,12 +92,30 @@ public class Scene implements GLEventListener {
         
         truck = new Vehicle("truck", gl, shader, truckFilePath);
         truck.scale(1.1f);
-        truck.translate(-29.00f, 0.0f, -0.79f);
+        truck.translate(-29.00f, -0.74f, -0.79f);
         truck.rotate(0.0f, 90.0f, 0.0f);
+        
+        frontWheels = new Vehicle("frontWheels", gl, shader, frontWheelsPath);
+        frontWheels.scale(1.702f);
+        frontWheels.translate(-28.395f, -1.02f, -0.79f);
+        frontWheels.rotate(0.0f, 90.0f, 0.0f);
+        
+        backWheels1 = new Vehicle("backWheels1", gl, shader, backWheels1Path);
+        backWheels1.scale(1.1f);
+        backWheels1.translate(-29.00f, 0.0f, -0.79f);
+        backWheels1.rotate(0.0f, 90.0f, 0.0f);
 
+        backWheels2 = new Vehicle("backWheels2", gl, shader, backWheels2Path);
+        backWheels2.scale(1.1f);
+        backWheels2.translate(-29.00f, 0.0f, -0.79f);
+        backWheels2.rotate(0.0f, 90.0f, 0.0f);
+        
         objects = new ArrayList<>();
         objects.add(truck);
         objects.add(bridge);
+        objects.add(frontWheels);
+        objects.add(backWheels1);
+        objects.add(backWheels2);
         
         selected = objects.get(0);
         selectedId = 0;
@@ -101,7 +129,8 @@ public class Scene implements GLEventListener {
     @Override
     public void display(GLAutoDrawable glad) {
         processInput();
-        truck.move();
+       // truck.move();
+
         camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
@@ -112,6 +141,9 @@ public class Scene implements GLEventListener {
         
         bridge.draw();
         truck.draw();
+        frontWheels.draw();
+        backWheels1.draw();
+        backWheels2.draw();
         
         gl.glFlush();
     }
@@ -166,10 +198,6 @@ public class Scene implements GLEventListener {
         //    !input.isTruckMoveBackward()) {
        //     truck.setAcceleration(0f);
        // }
-       
-       if (input.isTruckMoveRight() || input.isTruckMoveLeft()) {
-           truck.steering();
-       }
         
         if(input.isCameraRotateLeft()) {
             camera.spinY(-1.0f);
