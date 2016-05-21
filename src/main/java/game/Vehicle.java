@@ -50,8 +50,8 @@ public class Vehicle extends Object {
         float newY = surface.height(this.getPosX());
         float newR = surface.rotation(this.getPosX());
         
-//        this.setPosY(newY);
-//        this.rotate(newR - pSurfaceAngle, 0, 0);
+        this.setPosY(newY);
+        this.rotate(newR - pSurfaceAngle, 0, 0);
         
         
         pSurfaceAngle = newR;       /* new previous angle */
@@ -62,10 +62,10 @@ public class Vehicle extends Object {
             float newWheelY = surface.height(w.getPosX());
             float newWheelR = surface.rotation(w.getPosX());
         
-//            w.setPosY(newWheelY);
+            w.setPosY(newWheelY);
 //            w.rotate(newWheelR - w.getpBridgeAngle(), 0, 0);
             w.rotateWheel(speed);
-//            w.translate(0, -0.277f, 0);
+            w.translate(0, -0.277f, 0);
         
             pSurfaceAngle = newR;       /* new previous angle */
         }
