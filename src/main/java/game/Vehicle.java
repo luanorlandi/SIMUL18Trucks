@@ -23,10 +23,10 @@ public class Vehicle extends Object {
     private float xPos;
     private float yPos;
     
+    private float previousBridgeAngle;
+    
     private final float cY[];
     private final float cR[];
-    
-    ;
     
     public Vehicle(String name, GL3 gl, Shader shader, String filePath) {
         super(name, gl, shader, filePath);
@@ -35,6 +35,8 @@ public class Vehicle extends Object {
         acceleration = 0;
         max_speed = 0.2f;
         max_reverse = -0.05f;
+        
+        previousBridgeAngle = 0.0f;
         
         cY = new float[5];
         cY[0] = (float) -1.75687270222880e+002;
@@ -84,7 +86,10 @@ public class Vehicle extends Object {
         if(this.getPosX() > 0) {
             r *= -1;
         }
-        this.setAngleX(r);
+        
+        this.rotate(r - previousBridgeAngle, 0, 0);
+        
+        previousBridgeAngle = r;
     }
 
     public float getSpeed() {
@@ -145,6 +150,6 @@ public class Vehicle extends Object {
     }
 
     public void rotateWheels() {
-        rotate(0,speed*30,0);
+        rotate(speed*400,0,0);
     }
 }

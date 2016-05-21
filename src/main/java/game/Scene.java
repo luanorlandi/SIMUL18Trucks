@@ -207,11 +207,7 @@ public class Scene implements GLEventListener {
             if (input.isTruckMoveRight()) {
                 System.out.println(truck.getSpeed());
             }
-           // if(!input.isTruckMoveForward() &&
-            //    !input.isTruckMoveBackward()) {
-           //     truck.setAcceleration(0f);
-           // }
-
+            
             if(input.isCameraRotateLeft()) {
                 camera.spinY(-1.0f);
             }
@@ -224,7 +220,11 @@ public class Scene implements GLEventListener {
             frontWheels.move();
             backWheels1.move();
             backWheels2.move();
+            
             frontWheels.rotateWheels();
+            backWheels1.rotateWheels();
+            backWheels2.rotateWheels();
+            
             frontWheels.translate(0, -0.277f, 0);
             backWheels1.translate(0, -0.272f, 0);
             backWheels2.translate(0, -0.272f, 0);
