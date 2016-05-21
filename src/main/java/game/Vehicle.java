@@ -145,6 +145,6 @@ public class Vehicle extends Object {
     }
 
     public void rotateWheels() {
-        rotate(speed*30,0,0);
+        rotate(0,speed*30,0);
     }
 }
