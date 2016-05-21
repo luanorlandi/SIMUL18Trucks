@@ -33,15 +33,15 @@ public class Vehicle extends Object {
         
         speed = 0;
         acceleration = 0;
-        max_speed = 0.001f;
-        max_reverse = -0.001f;
+        max_speed = 0.2f;
+        max_reverse = -0.05f;
         
         cY = new float[5];
-        cY[0] = (float) -2.09687270222880e+002;
-        cY[1] = (float) -1.73677692452703e+000;
+        cY[0] = (float) -1.75687270222880e+002;
+        cY[1] = (float) -1.73677692452706e+000;
         cY[2] = (float) -2.17934186065177e+000;
-        cY[3] = (float) -7.55762104308736e-002;
-        cY[4] = (float) -8.83708721852949e-004;
+        cY[3] = (float) -7.55762104308739e-002;
+        cY[4] = (float)  -8.83708721852949e-004;
         
         cR = new float[5];
         cR[0] = (float) 1.06358436789827e+002;
@@ -52,20 +52,8 @@ public class Vehicle extends Object {
     }
     
     public void move() {
-        /* move in x */
+        /* move in x */   
         speed += acceleration;
-        
-        if(acceleration == 0 && speed != 0) {
-            if(speed > 0) {
-                speed -= 0.0002f;
-            } else {
-                speed += 0.0002f;
-            }
-        }
-        
-        if(speed > max_speed && speed < max_reverse) {
-            speed = 0;
-        }
         
         translate(speed, 0.0f, 0.0f);
         
@@ -115,6 +103,7 @@ public class Vehicle extends Object {
         if (speed < 0) {
             this.acceleration = 5 * acceleration;
         }
+        else if (speed > max_speed) this.acceleration = 0;
         else this.acceleration = acceleration;
     }
     
@@ -124,6 +113,10 @@ public class Vehicle extends Object {
                 this.acceleration = - acceleration;
             }
             else this.acceleration = acceleration;
+            
+            if (speed < 0.0005f && speed > -0.0005f) {
+                speed = 0;
+            }
         }
     }
     
@@ -131,6 +124,7 @@ public class Vehicle extends Object {
         if (speed > 0) {
             this.acceleration = acceleration;
         }
+        else if (speed < max_reverse) this.acceleration = 0;
         else this.acceleration = acceleration / 10;
     }
 }

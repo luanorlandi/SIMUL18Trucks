@@ -95,19 +95,19 @@ public class Scene implements GLEventListener {
         truck.translate(-29.00f, -0.74f, -0.79f);
         truck.rotate(0.0f, 90.0f, 0.0f);
         
-        frontWheels = new Vehicle("frontWheels", gl, shader, frontWheelsPath);
+        frontWheels = new Wheels("frontWheels", gl, shader, frontWheelsPath);
         frontWheels.scale(1.702f);
         frontWheels.translate(-28.395f, -1.02f, -0.79f);
         frontWheels.rotate(0.0f, 90.0f, 0.0f);
         
-        backWheels1 = new Vehicle("backWheels1", gl, shader, backWheels1Path);
-        backWheels1.scale(1.1f);
-        backWheels1.translate(-29.00f, 0.0f, -0.79f);
+        backWheels1 = new Wheels("backWheels1", gl, shader, backWheels1Path);
+        backWheels1.scale(0.748f);
+        backWheels1.translate(-29.395f, -1.025f, -0.78f);
         backWheels1.rotate(0.0f, 90.0f, 0.0f);
 
-        backWheels2 = new Vehicle("backWheels2", gl, shader, backWheels2Path);
-        backWheels2.scale(1.1f);
-        backWheels2.translate(-29.00f, 0.0f, -0.79f);
+        backWheels2 = new Wheels("backWheels2", gl, shader, backWheels2Path);
+        backWheels2.scale(0.512f);
+        backWheels2.translate(-29.63f, -1.025f, -0.78f);
         backWheels2.rotate(0.0f, 90.0f, 0.0f);
         
         objects = new ArrayList<>();
@@ -129,8 +129,13 @@ public class Scene implements GLEventListener {
     @Override
     public void display(GLAutoDrawable glad) {
         processInput();
-       // truck.move();
-
+        truck.move();
+        frontWheels.move();
+        backWheels1.move();
+        backWheels2.move();
+        frontWheels.translate(0, -0.277f, 0);
+        backWheels1.translate(0, -0.272f, 0);
+        backWheels2.translate(0, -0.272f, 0);
         camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
@@ -182,18 +187,33 @@ public class Scene implements GLEventListener {
     private void processInput() {
         if(input.isTruckMoveForward()) {
             truck.setAcceleration(0.0002f);
+            frontWheels.setAcceleration(0.0002f);
+            backWheels1.setAcceleration(0.0002f);
+            backWheels2.setAcceleration(0.0002f);
         }
         else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
             truck.setDesacceleration(0.0002f);
+            frontWheels.setDesacceleration(0.0002f);
+            backWheels1.setDesacceleration(0.0002f);
+            backWheels2.setDesacceleration(0.0002f);
         }
         
         if(input.isTruckMoveBackward()) {
             truck.setBreak(-0.001f);
+            frontWheels.setBreak(-0.001f);
+            backWheels1.setBreak(-0.001f);
+            backWheels2.setBreak(-0.001f);
         }
         else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
             truck.setDesacceleration(0.0004f);
+            frontWheels.setDesacceleration(0.0004f);
+            backWheels1.setDesacceleration(0.0004f);
+            backWheels2.setDesacceleration(0.0004f);
         }
         
+        if (input.isTruckMoveRight()) {
+            System.out.println(truck.getSpeed());
+        }
        // if(!input.isTruckMoveForward() &&
         //    !input.isTruckMoveBackward()) {
        //     truck.setAcceleration(0f);
