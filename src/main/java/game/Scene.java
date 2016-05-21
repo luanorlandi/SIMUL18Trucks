@@ -33,9 +33,6 @@ public class Scene implements GLEventListener {
     public Object bridge;
     public Surface surface;
     public Vehicle truck;
-//    public Vehicle frontWheels;
-//    public Vehicle backWheels1;
-//    public Vehicle backWheels2;
     public Object selected;             /* affected by edit mode */
     public int selectedId;              /* position in array objects */
     
@@ -145,12 +142,9 @@ public class Scene implements GLEventListener {
         
         bridge.draw();
         truck.draw();
-        truck.getWheels().get(0).draw();
-        truck.getWheels().get(1).draw();
-        truck.getWheels().get(2).draw();
-//        frontWheels.draw();
-//        backWheels1.draw();
-//        backWheels2.draw();
+        for(Wheel w : truck.getWheels()) {
+            w.draw();
+        }
         
         gl.glFlush();
     }
@@ -190,28 +184,16 @@ public class Scene implements GLEventListener {
         if(!input.isEditMode()) {
             if(input.isTruckMoveForward()) {
                 truck.setAcceleration(0.0002f);
-//                frontWheels.setAcceleration(0.0002f);
-//                backWheels1.setAcceleration(0.0002f);
-//                backWheels2.setAcceleration(0.0002f);
             }
             else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
                 truck.setDesacceleration(0.0002f);
-//                frontWheels.setDesacceleration(0.0002f);
-//                backWheels1.setDesacceleration(0.0002f);
-//                backWheels2.setDesacceleration(0.0002f);
             }
 
             if(input.isTruckMoveBackward()) {
                 truck.setBreak(-0.001f);
-//                frontWheels.setBreak(-0.001f);
-//                backWheels1.setBreak(-0.001f);
-//                backWheels2.setBreak(-0.001f);
             }
             else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
                 truck.setDesacceleration(0.0004f);
-//                frontWheels.setDesacceleration(0.0004f);
-//                backWheels1.setDesacceleration(0.0004f);
-//                backWheels2.setDesacceleration(0.0004f);
             }
 
             if (input.isTruckMoveRight()) {
@@ -227,17 +209,6 @@ public class Scene implements GLEventListener {
             }
             
             truck.move(surface);
-//            frontWheels.move();
-//            backWheels1.move();
-//            backWheels2.move();
-            
-//            frontWheels.rotateWheels();
-//            backWheels1.rotateWheels();
-//            backWheels2.rotateWheels();
-            
-//            frontWheels.translate(0, -0.277f, 0);
-//            backWheels1.translate(0, -0.272f, 0);
-//            backWheels2.translate(0, -0.272f, 0);
             camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         } else {
             float to = 0.005f;
