@@ -129,14 +129,6 @@ public class Scene implements GLEventListener {
     @Override
     public void display(GLAutoDrawable glad) {
         processInput();
-        truck.move();
-        frontWheels.move();
-        backWheels1.move();
-        backWheels2.move();
-        frontWheels.translate(0, -0.277f, 0);
-        backWheels1.translate(0, -0.272f, 0);
-        backWheels2.translate(0, -0.272f, 0);
-        camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
@@ -185,49 +177,58 @@ public class Scene implements GLEventListener {
     }
     
     private void processInput() {
-        if(input.isTruckMoveForward()) {
-            truck.setAcceleration(0.0002f);
-            frontWheels.setAcceleration(0.0002f);
-            backWheels1.setAcceleration(0.0002f);
-            backWheels2.setAcceleration(0.0002f);
-        }
-        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
-            truck.setDesacceleration(0.0002f);
-            frontWheels.setDesacceleration(0.0002f);
-            backWheels1.setDesacceleration(0.0002f);
-            backWheels2.setDesacceleration(0.0002f);
-        }
-        
-        if(input.isTruckMoveBackward()) {
-            truck.setBreak(-0.001f);
-            frontWheels.setBreak(-0.001f);
-            backWheels1.setBreak(-0.001f);
-            backWheels2.setBreak(-0.001f);
-        }
-        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
-            truck.setDesacceleration(0.0004f);
-            frontWheels.setDesacceleration(0.0004f);
-            backWheels1.setDesacceleration(0.0004f);
-            backWheels2.setDesacceleration(0.0004f);
-        }
-        
-        if (input.isTruckMoveRight()) {
-            System.out.println(truck.getSpeed());
-        }
-       // if(!input.isTruckMoveForward() &&
-        //    !input.isTruckMoveBackward()) {
-       //     truck.setAcceleration(0f);
-       // }
-        
-        if(input.isCameraRotateLeft()) {
-            camera.spinY(-1.0f);
-        }
-        
-        if(input.isCameraRotateRight()) {
-            camera.spinY(1.0f);
-        }
-        
-        if(input.isEditMode()) {
+        if(!input.isEditMode()) {
+            if(input.isTruckMoveForward()) {
+                truck.setAcceleration(0.0002f);
+                frontWheels.setAcceleration(0.0002f);
+                backWheels1.setAcceleration(0.0002f);
+                backWheels2.setAcceleration(0.0002f);
+            }
+            else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+                truck.setDesacceleration(0.0002f);
+                frontWheels.setDesacceleration(0.0002f);
+                backWheels1.setDesacceleration(0.0002f);
+                backWheels2.setDesacceleration(0.0002f);
+            }
+
+            if(input.isTruckMoveBackward()) {
+                truck.setBreak(-0.001f);
+                frontWheels.setBreak(-0.001f);
+                backWheels1.setBreak(-0.001f);
+                backWheels2.setBreak(-0.001f);
+            }
+            else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+                truck.setDesacceleration(0.0004f);
+                frontWheels.setDesacceleration(0.0004f);
+                backWheels1.setDesacceleration(0.0004f);
+                backWheels2.setDesacceleration(0.0004f);
+            }
+
+            if (input.isTruckMoveRight()) {
+                System.out.println(truck.getSpeed());
+            }
+           // if(!input.isTruckMoveForward() &&
+            //    !input.isTruckMoveBackward()) {
+           //     truck.setAcceleration(0f);
+           // }
+
+            if(input.isCameraRotateLeft()) {
+                camera.spinY(-1.0f);
+            }
+
+            if(input.isCameraRotateRight()) {
+                camera.spinY(1.0f);
+            }
+            
+            truck.move();
+            frontWheels.move();
+            backWheels1.move();
+            backWheels2.move();
+            frontWheels.translate(0, -0.277f, 0);
+            backWheels1.translate(0, -0.272f, 0);
+            backWheels2.translate(0, -0.272f, 0);
+            camera.translate(truck.getSpeed(), 0.0f, 0.0f);
+        } else {
             float to = 0.005f;
             float ro = 0.05f;
             float tc = 0.05f;
