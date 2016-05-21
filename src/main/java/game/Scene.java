@@ -95,17 +95,17 @@ public class Scene implements GLEventListener {
         truck.translate(-29.00f, -0.74f, -0.79f);
         truck.rotate(0.0f, 90.0f, 0.0f);
         
-        frontWheels = new Wheels("frontWheels", gl, shader, frontWheelsPath);
+        frontWheels = new Vehicle("frontWheels", gl, shader, frontWheelsPath);
         frontWheels.scale(1.702f);
         frontWheels.translate(-28.395f, -1.02f, -0.79f);
         frontWheels.rotate(0.0f, 90.0f, 0.0f);
         
-        backWheels1 = new Wheels("backWheels1", gl, shader, backWheels1Path);
+        backWheels1 = new Vehicle("backWheels1", gl, shader, backWheels1Path);
         backWheels1.scale(0.748f);
         backWheels1.translate(-29.395f, -1.025f, -0.78f);
         backWheels1.rotate(0.0f, 90.0f, 0.0f);
 
-        backWheels2 = new Wheels("backWheels2", gl, shader, backWheels2Path);
+        backWheels2 = new Vehicle("backWheels2", gl, shader, backWheels2Path);
         backWheels2.scale(0.512f);
         backWheels2.translate(-29.63f, -1.025f, -0.78f);
         backWheels2.rotate(0.0f, 90.0f, 0.0f);
@@ -177,6 +177,7 @@ public class Scene implements GLEventListener {
     }
     
     private void processInput() {
+<<<<<<< Updated upstream
         if(!input.isEditMode()) {
             if(input.isTruckMoveForward()) {
                 truck.setAcceleration(0.0002f);
@@ -229,6 +230,52 @@ public class Scene implements GLEventListener {
             backWheels2.translate(0, -0.272f, 0);
             camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         } else {
+=======
+        if(input.isTruckMoveForward()) {
+            truck.setAcceleration(0.0002f);
+            frontWheels.setAcceleration(0.0002f);
+            backWheels1.setAcceleration(0.0002f);
+            backWheels2.setAcceleration(0.0002f);
+            frontWheels.rotateWheels();
+        }
+        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+            truck.setDesacceleration(0.0002f);
+            frontWheels.setDesacceleration(0.0002f);
+            backWheels1.setDesacceleration(0.0002f);
+            backWheels2.setDesacceleration(0.0002f);
+        }
+        
+        if(input.isTruckMoveBackward()) {
+            truck.setBreak(-0.001f);
+            frontWheels.setBreak(-0.001f);
+            backWheels1.setBreak(-0.001f);
+            backWheels2.setBreak(-0.001f);
+        }
+        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+            truck.setDesacceleration(0.0004f);
+            frontWheels.setDesacceleration(0.0004f);
+            backWheels1.setDesacceleration(0.0004f);
+            backWheels2.setDesacceleration(0.0004f);
+        }
+        
+        if (input.isTruckMoveRight()) {
+            System.out.println(truck.getSpeed());
+        }
+       // if(!input.isTruckMoveForward() &&
+        //    !input.isTruckMoveBackward()) {
+       //     truck.setAcceleration(0f);
+       // }
+        
+        if(input.isCameraRotateLeft()) {
+            camera.spinY(-1.0f);
+        }
+        
+        if(input.isCameraRotateRight()) {
+            camera.spinY(1.0f);
+        }
+        
+        if(input.isEditMode()) {
+>>>>>>> Stashed changes
             float to = 0.005f;
             float ro = 0.05f;
             float tc = 0.05f;

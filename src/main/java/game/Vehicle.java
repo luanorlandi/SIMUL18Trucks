@@ -99,6 +99,22 @@ public class Vehicle extends Object {
         this.speed = speed;
     }
 
+    public float getMaxSpeed() {
+        return max_speed;
+    }
+    
+    public void setMaxSpeed(float max_speed) {
+        this.max_speed = speed;
+    }
+    
+    public float getMaxReverse() {
+        return max_reverse;
+    }
+    
+    public void setMaxReverse(float max_reverse) {
+        this.max_reverse = max_reverse;
+    }
+    
     public void setAcceleration(float acceleration) {
         if (speed < 0) {
             this.acceleration = 5 * acceleration;
@@ -126,5 +142,9 @@ public class Vehicle extends Object {
         }
         else if (speed < max_reverse) this.acceleration = 0;
         else this.acceleration = acceleration / 10;
+    }
+
+    public void rotateWheels() {
+        rotate(speed*30,0,0);
     }
 }
