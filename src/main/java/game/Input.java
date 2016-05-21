@@ -139,7 +139,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
                 case KeyEvent.VK_S: truckMoveBackward = true; break;
                 case KeyEvent.VK_Q: cameraRotateLeft = true; break;
                 case KeyEvent.VK_E: cameraRotateRight = true; break;
-                case KeyEvent.VK_A: truckMoveLeft = true; break;
                 case KeyEvent.VK_D: truckMoveRight = true; break;
             }
         } else {

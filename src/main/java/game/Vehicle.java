@@ -6,6 +6,7 @@
 package game;
 
 import br.usp.icmc.vicg.gl.util.Shader;
+import java.util.ArrayList;
 import javax.media.opengl.GL3;
 
 /**
@@ -23,92 +24,54 @@ public class Vehicle extends Object {
     private float xPos;
     private float yPos;
     
-    private final float cY[];
-    private final float cR[];
+    private float pSurfaceAngle;             /* save previous angle */
+    
+    private final ArrayList<Wheel> wheels;
     
     public Vehicle(String name, GL3 gl, Shader shader, String filePath) {
         super(name, gl, shader, filePath);
         
         speed = 0;
         acceleration = 0;
-        max_speed = 0.001f;
-        max_reverse = -0.001f;
+        max_speed = 0.2f;
+        max_reverse = -0.05f;
         
-        cY = new float[5];
-        cY[0] = (float) -2.09687270222880e+002;
-        cY[1] = (float) -1.73677692452703e+000;
-        cY[2] = (float) -2.17934186065177e+000;
-        cY[3] = (float) -7.55762104308736e-002;
-        cY[4] = (float) -8.83708721852949e-004;
+        pSurfaceAngle = 0.0f;
         
-        cR = new float[5];
-        cR[0] = (float) 1.06358436789827e+002;
-        cR[1] = (float) 5.35603485093407e+002;
-        cR[2] = (float) 5.84694281292338e+001;
-        cR[3] = (float) 2.62318796899470e+000;
-        cR[4] = (float) 4.24757612400653e-002;
+        wheels = new ArrayList();
     }
     
-    public void steering() {
-        double degreesPerFrame = 180 / (2*30); //180 degrees over 30 fps in 2s
-        velocityX = (float) (velocityX * -1 * Math.cos(degreesPerFrame));
-        velocityY = (float) (velocityY * -1 * Math.sin(degreesPerFrame));
-        double yChange = Math.sin(degreesPerFrame) * velocityY;
-        double xChange = Math.cos(degreesPerFrame) * velocityX;
-        xPos += xChange; //change x position
-        yPos += yChange; //change y position
-    
-        translate(xPos, yPos, 0.0f);
-    }
-    
-    public void move() {
-        /* move in x */
+    public void move(Surface surface) {
+        /* move in x */   
         speed += acceleration;
-        
-        if(acceleration == 0 && speed != 0) {
-            if(speed > 0) {
-                speed -= 0.0002f;
-            } else {
-                speed += 0.0002f;
-            }
-        }
-        
-        if(speed > max_speed && speed < max_reverse) {
-            speed = 0;
-        }
         
         translate(speed, 0.0f, 0.0f);
         
-        float x = this.getPosX();
-        if(x > 0) {
-            x *= -1;
+        float newY = surface.height(this.getPosX());
+        float newR = surface.rotation(this.getPosX());
+        
+        this.setPosY(newY);
+        this.rotate(newR - pSurfaceAngle, 0, 0);
+        
+        
+        pSurfaceAngle = newR;       /* new previous angle */
+        
+        /* move and rotate all wheels */
+        for(Wheel w : wheels) {
+            w.translate(speed, 0, 0);
+            float newWheelY = surface.height(w.getPosX());
+            float newWheelR = surface.rotation(w.getPosX());
+        
+            w.setPosY(newWheelY);
+//            w.rotate(newWheelR - w.getpBridgeAngle(), 0, 0);
+            w.rotateWheel(speed);
+            w.translate(0, -0.277f, 0);
+        
+            pSurfaceAngle = newR;       /* new previous angle */
         }
         
-        /* move in y */
-        float y = 0;
-        
-        for(int i = 0; i < cY.length; i++) {
-            y += cY[i] * Math.pow(x, i);
-        }
-        
-        y /= 1000;
-        this.setPosY(y);
-        
-        /* rotate in z */
-        float r = 0;
-        
-        for(int i = 0; i < cR.length; i++) {
-            r += cR[i] * Math.pow(x, i);
-        }
-        
-        r /= 1000;
-        
-        if(this.getPosX() > 0) {
-            r *= -1;
-        }
-        this.setAngleX(r);
     }
-
+    
     public float getSpeed() {
         return speed;
     }
@@ -121,10 +84,27 @@ public class Vehicle extends Object {
         this.speed = speed;
     }
 
+    public float getMaxSpeed() {
+        return max_speed;
+    }
+    
+    public void setMaxSpeed(float max_speed) {
+        this.max_speed = speed;
+    }
+    
+    public float getMaxReverse() {
+        return max_reverse;
+    }
+    
+    public void setMaxReverse(float max_reverse) {
+        this.max_reverse = max_reverse;
+    }
+    
     public void setAcceleration(float acceleration) {
         if (speed < 0) {
             this.acceleration = 5 * acceleration;
         }
+        else if (speed > max_speed) this.acceleration = 0;
         else this.acceleration = acceleration;
     }
     
@@ -134,6 +114,10 @@ public class Vehicle extends Object {
                 this.acceleration = - acceleration;
             }
             else this.acceleration = acceleration;
+            
+            if (speed < 0.0005f && speed > -0.0005f) {
+                speed = 0;
+            }
         }
     }
     
@@ -141,6 +125,11 @@ public class Vehicle extends Object {
         if (speed > 0) {
             this.acceleration = acceleration;
         }
+        else if (speed < max_reverse) this.acceleration = 0;
         else this.acceleration = acceleration / 10;
+    }
+
+    public ArrayList<Wheel> getWheels() {
+        return wheels;
     }
 }

@@ -26,8 +26,12 @@ public class Scene implements GLEventListener {
     
     private final String bridgeFilePath;
     private final String truckFilePath;
+    private final String frontWheelsPath;
+    private final String backWheels1Path;
+    private final String backWheels2Path;
     
     public Object bridge;
+    public Surface surface;
     public Vehicle truck;
     public Object selected;             /* affected by edit mode */
     public int selectedId;              /* position in array objects */
@@ -44,6 +48,10 @@ public class Scene implements GLEventListener {
         
         bridgeFilePath = "./model/bridge/bridge.obj";
         truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
+        frontWheelsPath = "./model/Wheels/FrontWheels/FrontWheels.obj";
+        backWheels1Path = "./model/Wheels/BackWheels1/BackWheels1.obj";
+        backWheels2Path = "./model/Wheels/BackWheels2/BackWheels2.obj";
+        
     }
     
     public static Scene getInstance() {
@@ -80,14 +88,38 @@ public class Scene implements GLEventListener {
         bridge.scale(30.0f);
         bridge.rotate(0.0f, 180.0f, 0.0f);
         
+        surface = new Surface();
+        
         truck = new Vehicle("truck", gl, shader, truckFilePath);
         truck.scale(1.1f);
-        truck.translate(-29.00f, 0.0f, -0.79f);
+        truck.translate(-29.00f, -0.74f, -0.79f);
         truck.rotate(0.0f, 90.0f, 0.0f);
+        
+        Wheel frontWheels = new Wheel("frontWheels", gl, shader, frontWheelsPath);
+        frontWheels.scale(1.702f);
+        frontWheels.translate(-28.395f, -1.02f, -0.79f);
+        frontWheels.rotate(0.0f, 90.0f, 0.0f);
+        
+        Wheel backWheels1 = new Wheel("backWheels1", gl, shader, backWheels1Path);
+        backWheels1.scale(0.748f);
+        backWheels1.translate(-29.395f, -1.025f, -0.78f);
+        backWheels1.rotate(0.0f, 90.0f, 0.0f);
 
+        Wheel backWheels2 = new Wheel("backWheels2", gl, shader, backWheels2Path);
+        backWheels2.scale(0.512f);
+        backWheels2.translate(-29.63f, -1.025f, -0.78f);
+        backWheels2.rotate(0.0f, 90.0f, 0.0f);
+        
+        truck.getWheels().add(frontWheels);
+        truck.getWheels().add(backWheels1);
+        truck.getWheels().add(backWheels2);
+        
         objects = new ArrayList<>();
         objects.add(truck);
         objects.add(bridge);
+        objects.add(frontWheels);
+        objects.add(backWheels1);
+        objects.add(backWheels2);
         
         selected = objects.get(0);
         selectedId = 0;
@@ -101,8 +133,6 @@ public class Scene implements GLEventListener {
     @Override
     public void display(GLAutoDrawable glad) {
         processInput();
-        truck.move();
-        camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
@@ -112,6 +142,9 @@ public class Scene implements GLEventListener {
         
         bridge.draw();
         truck.draw();
+        for(Wheel w : truck.getWheels()) {
+            w.draw();
+        }
         
         gl.glFlush();
     }
@@ -148,38 +181,36 @@ public class Scene implements GLEventListener {
     }
     
     private void processInput() {
-        if(input.isTruckMoveForward()) {
-            truck.setAcceleration(0.0002f);
-        }
-        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
-            truck.setDesacceleration(0.0002f);
-        }
-        
-        if(input.isTruckMoveBackward()) {
-            truck.setBreak(-0.001f);
-        }
-        else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
-            truck.setDesacceleration(0.0004f);
-        }
-        
-       // if(!input.isTruckMoveForward() &&
-        //    !input.isTruckMoveBackward()) {
-       //     truck.setAcceleration(0f);
-       // }
-       
-       if (input.isTruckMoveRight() || input.isTruckMoveLeft()) {
-           truck.steering();
-       }
-        
-        if(input.isCameraRotateLeft()) {
-            camera.spinY(-1.0f);
-        }
-        
-        if(input.isCameraRotateRight()) {
-            camera.spinY(1.0f);
-        }
-        
-        if(input.isEditMode()) {
+        if(!input.isEditMode()) {
+            if(input.isTruckMoveForward()) {
+                truck.setAcceleration(0.0002f);
+            }
+            else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+                truck.setDesacceleration(0.0002f);
+            }
+
+            if(input.isTruckMoveBackward()) {
+                truck.setBreak(-0.001f);
+            }
+            else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
+                truck.setDesacceleration(0.0004f);
+            }
+
+            if (input.isTruckMoveRight()) {
+                System.out.println(truck.getSpeed());
+            }
+            
+            if(input.isCameraRotateLeft()) {
+                camera.spinY(-1.0f);
+            }
+
+            if(input.isCameraRotateRight()) {
+                camera.spinY(1.0f);
+            }
+            
+            truck.move(surface);
+            camera.translate(truck.getSpeed(), 0.0f, 0.0f);
+        } else {
             float to = 0.005f;
             float ro = 0.05f;
             float tc = 0.05f;

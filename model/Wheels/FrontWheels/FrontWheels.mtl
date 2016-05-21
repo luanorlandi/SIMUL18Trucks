@@ -1,0 +1,14 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl 3c680e30_dds
+Ns 9.803922
+Ka 0.700000 0.700000 0.700000
+Kd 0.700000 0.700000 0.700000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd texture_0015.PNG
+map_Ka texture_0015.PNG
