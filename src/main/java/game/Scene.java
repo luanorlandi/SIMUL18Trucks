@@ -1,5 +1,6 @@
 package game;
 
+import br.usp.icmc.vicg.gl.model.Sphere;
 import br.usp.icmc.vicg.gl.util.Shader;
 import br.usp.icmc.vicg.gl.util.ShaderFactory;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class Scene implements GLEventListener {
     public Object bridge;
     public Surface surface;
     public Vehicle truck;
+    
     public Object selected;             /* affected by edit mode */
     public int selectedId;              /* position in array objects */
     
@@ -51,7 +53,6 @@ public class Scene implements GLEventListener {
         frontWheelsPath = "./model/Wheels/FrontWheels/FrontWheels.obj";
         backWheels1Path = "./model/Wheels/BackWheels1/BackWheels1.obj";
         backWheels2Path = "./model/Wheels/BackWheels2/BackWheels2.obj";
-        
     }
     
     public static Scene getInstance() {
