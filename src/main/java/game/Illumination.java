@@ -26,10 +26,6 @@ public class Illumination {
         light.setDiffuseColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
         light.setSpecularColor(new float[]{0.1f, 0.1f, 0.1f, 1.0f});
         
-//        light.setConstantAttenuation(1.0f);
-//        light.setLinearAttenuation(1.0f);
-//        light.setQuadraticAttenuation(1.0f);
-        
         light.init(gl, shader);
         light.bind();
     }
