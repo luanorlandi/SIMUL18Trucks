@@ -1,6 +1,5 @@
 package game;
 
-import br.usp.icmc.vicg.gl.model.Sphere;
 import br.usp.icmc.vicg.gl.util.Shader;
 import br.usp.icmc.vicg.gl.util.ShaderFactory;
 import java.util.ArrayList;
@@ -212,10 +211,10 @@ public class Scene implements GLEventListener {
             truck.move(surface);
             camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         } else {
-            float to = 0.005f;
-            float ro = 0.05f;
-            float tc = 0.05f;
-            float rc = 0.5f;
+            float to = 1.005f;
+            float ro = 1.05f;
+            float tc = 1.05f;
+            float rc = 1.5f;
             
             if(input.objTansXNeg)   selected.translate(-to, 0f, 0f);
             if(input.objTansXPos)   selected.translate(to, 0f, 0f);
