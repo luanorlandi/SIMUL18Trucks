@@ -14,9 +14,9 @@ import com.jogamp.common.nio.Buffers;
 public class Shader {
 
   private String[] shaders_filenames = new String[5];
-  private GL3 gl = null;
+  public GL3 gl = null;
   private int handle = -1;
-  
+
   public static final int[] TYPES = new int[] {
     GL3.GL_VERTEX_SHADER,
     GL3.GL_FRAGMENT_SHADER,
