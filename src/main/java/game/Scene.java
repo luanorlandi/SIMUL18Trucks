@@ -16,6 +16,7 @@ public class Scene implements GLEventListener {
     private static Scene scene;
     
     private final Shader shader;
+    private final Shader shaderSkybox;
     private GL3 gl;
     
     private final Illumination illumination;    /* class config for light */
@@ -33,6 +34,7 @@ public class Scene implements GLEventListener {
     public Object bridge;
     public Surface surface;
     public Vehicle truck;
+    public Skybox skybox;
     
     public Object selected;             /* affected by edit mode */
     public int selectedId;              /* position in array objects */
@@ -41,6 +43,9 @@ public class Scene implements GLEventListener {
     
     private Scene() {
         shader = ShaderFactory.getInstance(
+            ShaderFactory.ShaderType.COMPLETE_SHADER);
+        
+        shaderSkybox = ShaderFactory.getInstance(
             ShaderFactory.ShaderType.COMPLETE_SHADER);
         
         illumination = new Illumination();
@@ -75,7 +80,7 @@ public class Scene implements GLEventListener {
         gl.glEnable(GL.GL_CULL_FACE);
         
         shader.init(gl);
-        shader.bind();
+        shaderSkybox.init(gl);
         
         illumination.init(gl, shader);
         
@@ -114,6 +119,8 @@ public class Scene implements GLEventListener {
         truck.getWheels().add(backWheels1);
         truck.getWheels().add(backWheels2);
         
+        skybox = new Skybox("bridge", gl, shader, bridgeFilePath);
+        
         objects = new ArrayList<>();
         objects.add(truck);
         objects.add(bridge);
@@ -136,6 +143,8 @@ public class Scene implements GLEventListener {
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
+        shader.bind();
+        
         illumination.bind();
         camera.followObject(truck);
         camera.perpective();
@@ -145,6 +154,9 @@ public class Scene implements GLEventListener {
         for(Wheel w : truck.getWheels()) {
             w.draw();
         }
+        
+        shaderSkybox.bind();
+        //skybox.draw();
         
         gl.glFlush();
     }

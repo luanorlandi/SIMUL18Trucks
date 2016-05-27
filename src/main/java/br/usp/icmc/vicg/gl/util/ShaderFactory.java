@@ -20,29 +20,35 @@ public class ShaderFactory {
     LIGHT_SHADER,
     TEXTURE_SHADER,
     NORMALMAP_SHADER,
-    COMPLETE_SHADER
+    COMPLETE_SHADER,
+    SKYBOX_SHADER
   };
 
   public static Shader getInstance(ShaderType type) {
-    if (type == ShaderType.SIMPLE_SHADER) {
-      return new Shader("simple_vertex.glsl", "simple_fragment.glsl");
-    } else if (type == ShaderType.TRANSFORM_SHADER) {
-      return new Shader("transform_vertex.glsl", "simple_fragment.glsl");
-    } else if (type == ShaderType.MODEL_MATRIX_SHADER) {
-      return new Shader("model_vertex.glsl", "simple_fragment.glsl");
-    } else if (type == ShaderType.MODEL_PROJECTION_MATRIX_SHADER) {
-      return new Shader("model_projection_vertex.glsl", "simple_fragment.glsl");
-    } else if (type == ShaderType.VIEW_MODEL_PROJECTION_MATRIX_SHADER) {
-      return new Shader("view_model_projection_vertex.glsl", "simple_fragment.glsl");
-    } else if (type == ShaderType.LIGHT_SHADER) {
-      return new Shader("light_vertex.glsl", "light_fragment.glsl");
-    } else if (type == ShaderType.TEXTURE_SHADER) {
-      return new Shader("texture_vertex.glsl", "texture_fragment.glsl");
-    }  else if (type == ShaderType.NORMALMAP_SHADER) {
-      return new Shader("normalmap_vertex.glsl", "normalmap_fragment.glsl");
-    } else if (type == ShaderType.COMPLETE_SHADER) {
-      return new Shader("complete_vertex.glsl", "complete_fragment.glsl");
-    }
+    if (null != type) switch (type) {
+          case SIMPLE_SHADER:
+              return new Shader("simple_vertex.glsl", "simple_fragment.glsl");
+          case TRANSFORM_SHADER:
+              return new Shader("transform_vertex.glsl", "simple_fragment.glsl");
+          case MODEL_MATRIX_SHADER:
+              return new Shader("model_vertex.glsl", "simple_fragment.glsl");
+          case MODEL_PROJECTION_MATRIX_SHADER:
+              return new Shader("model_projection_vertex.glsl", "simple_fragment.glsl");
+          case VIEW_MODEL_PROJECTION_MATRIX_SHADER:
+              return new Shader("view_model_projection_vertex.glsl", "simple_fragment.glsl");
+          case LIGHT_SHADER:
+              return new Shader("light_vertex.glsl", "light_fragment.glsl");
+          case TEXTURE_SHADER:
+              return new Shader("texture_vertex.glsl", "texture_fragment.glsl");
+          case NORMALMAP_SHADER:
+              return new Shader("normalmap_vertex.glsl", "normalmap_fragment.glsl");
+          case COMPLETE_SHADER:
+              return new Shader("complete_vertex.glsl", "complete_fragment.glsl");
+          case SKYBOX_SHADER:
+              return new Shader("skybox_vertex.glsl", "skybox_fragment.glsl");
+          default:
+              break;
+      }
     return null;
   }
 }
