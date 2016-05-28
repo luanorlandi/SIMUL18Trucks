@@ -30,12 +30,11 @@ public class Scene implements GLEventListener {
     private final String backWheels1Path;
     private final String backWheels2Path;
     
-    public Object bridge;
-    public Surface surface;
-    public Vehicle truck;
+    private Bridge bridge;
+    private Vehicle truck;
     
-    public Object selected;             /* affected by edit mode */
-    public int selectedId;              /* position in array objects */
+    private Object selected;             /* affected by edit mode */
+    private int selectedId;              /* position in array objects */
     
     private ArrayList<Object> objects;  /* list with all objects */
     
@@ -84,11 +83,7 @@ public class Scene implements GLEventListener {
         camera.setPosY(-0.46f);
         camera.setPosZ(-0.79f);
         
-        bridge = new Object("bridge", gl, shader, bridgeFilePath);
-        bridge.scale(30.0f);
-        bridge.rotate(0.0f, 180.0f, 0.0f);
-        
-        surface = new Surface();
+        bridge = new Bridge(gl, shader, bridgeFilePath);
         
         truck = new Vehicle("truck", gl, shader, truckFilePath);
         truck.scale(1.1f);
@@ -116,7 +111,9 @@ public class Scene implements GLEventListener {
         
         objects = new ArrayList<>();
         objects.add(truck);
-        objects.add(bridge);
+        objects.add(bridge.getBridgeList().get(0));
+        objects.add(bridge.getBridgeList().get(1));
+        objects.add(bridge.getBridgeList().get(2));
         objects.add(frontWheels);
         objects.add(backWheels1);
         objects.add(backWheels2);
@@ -145,6 +142,9 @@ public class Scene implements GLEventListener {
         for(Wheel w : truck.getWheels()) {
             w.draw();
         }
+        
+        bridge.reposition(truck.getPosX());
+        bridge.draw();
         
         gl.glFlush();
     }
@@ -178,6 +178,8 @@ public class Scene implements GLEventListener {
         }
         
         selected = objects.get(selectedId);
+        
+        System.out.println("Object selected: " + selected);
     }
     
     private void processInput() {
@@ -208,7 +210,7 @@ public class Scene implements GLEventListener {
                 camera.spinY(1.0f);
             }
             
-            truck.move(surface);
+            truck.move(bridge);
             camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         } else {
             float to = 1.005f;
