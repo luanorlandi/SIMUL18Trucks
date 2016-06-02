@@ -35,8 +35,8 @@ public class Vehicle extends Object {
         
         speed = 0;
         acceleration = 0;
-        max_speed = 0.2f;
-        max_reverse = -0.05f;
+        //max_speed = 0.2f;
+        //max_reverse = -0.05f;
         
         pSurfaceAngle = 0.0f;
         
@@ -99,7 +99,7 @@ public class Vehicle extends Object {
     }
     
     public void setMaxSpeed(float max_speed) {
-        this.max_speed = speed;
+        this.max_speed = max_speed;
     }
     
     public float getMaxReverse() {
