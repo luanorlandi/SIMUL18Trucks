@@ -24,6 +24,8 @@ public class Vehicle extends Object {
     private float xPos;
     private float yPos;
     
+    private float translation;
+    private float wheeltranslation;
     private float pSurfaceAngle;             /* save previous angle */
     
     private final ArrayList<Wheel> wheels;
@@ -50,7 +52,7 @@ public class Vehicle extends Object {
         float newY = surface.height(this.getPosX());
         float newR = surface.rotation(this.getPosX());
         
-        this.setPosY(newY);
+        this.setPosY(newY + translation);
         this.rotate(newR - pSurfaceAngle, 0, 0);
         
         
@@ -65,11 +67,19 @@ public class Vehicle extends Object {
             w.setPosY(newWheelY);
 //            w.rotate(newWheelR - w.getpBridgeAngle(), 0, 0);
             w.rotateWheel(speed);
-            w.translate(0, -0.277f, 0);
+            w.translate(0, wheeltranslation, 0);
         
             pSurfaceAngle = newR;       /* new previous angle */
         }
         
+    }
+    
+    public void setTranslation(float translation) {
+        this.translation = translation;
+    }
+    
+    public void setWheelTranslation(float wheeltranslation) {
+        this.wheeltranslation = wheeltranslation;
     }
     
     public float getSpeed() {

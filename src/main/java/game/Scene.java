@@ -25,12 +25,14 @@ public class Scene implements GLEventListener {
     public Camera camera;
     
     private final String bridgeFilePath;
+    private final String carFilePath;
     private final String truckFilePath;
     private final String frontWheelsPath;
     private final String backWheels1Path;
     private final String backWheels2Path;
     
     private Bridge bridge;
+    private ArrayList<Vehicle> cars;
     private Vehicle truck;
     
     private Object selected;             /* affected by edit mode */
@@ -47,6 +49,7 @@ public class Scene implements GLEventListener {
         input = Input.getInstance();
         
         bridgeFilePath = "./model/bridge/newBridge.obj";
+        carFilePath = "./data/murci/murcilego.obj";
         truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
         frontWheelsPath = "./model/Wheels/FrontWheels/FrontWheels.obj";
         backWheels1Path = "./model/Wheels/BackWheels1/BackWheels1.obj";
@@ -89,6 +92,8 @@ public class Scene implements GLEventListener {
         truck.scale(1.1f);
         truck.translate(-29.00f, -0.74f, -0.79f);
         truck.rotate(0.0f, 90.0f, 0.0f);
+        truck.setTranslation(0);
+        truck.setWheelTranslation(-0.277f);
         
         Wheel frontWheels = new Wheel("frontWheels", gl, shader, frontWheelsPath);
         frontWheels.scale(1.702f);
@@ -109,8 +114,18 @@ public class Scene implements GLEventListener {
         truck.getWheels().add(backWheels1);
         truck.getWheels().add(backWheels2);
         
+        Vehicle car = new Vehicle("car", gl, shader, carFilePath);
+        
+        cars = new ArrayList<>();
+        cars.add(car);
+        cars.get(0).translate(-29.00f, -0.97f, 0.237f);
+        cars.get(0).rotate(0.0f, 90.0f, 0.0f);
+        cars.get(0).scale(0.437f);
+        
+        
         objects = new ArrayList<>();
         objects.add(truck);
+        objects.add(cars.get(0));
         objects.add(bridge.getBridgeList().get(0));
         objects.add(bridge.getBridgeList().get(1));
         objects.add(bridge.getBridgeList().get(2));
@@ -131,6 +146,12 @@ public class Scene implements GLEventListener {
     public void display(GLAutoDrawable glad) {
         processInput();
         
+        cars.get(0).move(bridge);
+        cars.get(0).setTranslation(-0.277f);
+        cars.get(0).setWheelTranslation(-0.277f);
+       
+        cars.get(0).setAcceleration(0.0002f);
+        
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
         illumination.bind();
@@ -139,12 +160,15 @@ public class Scene implements GLEventListener {
         
         bridge.draw();
         truck.draw();
+        
         for(Wheel w : truck.getWheels()) {
             w.draw();
         }
         
         bridge.reposition(truck.getPosX());
         bridge.draw();
+        
+        cars.get(0).draw();
         
         gl.glFlush();
     }
@@ -213,10 +237,10 @@ public class Scene implements GLEventListener {
             truck.move(bridge);
             camera.translate(truck.getSpeed(), 0.0f, 0.0f);
         } else {
-            float to = 1.005f;
-            float ro = 1.05f;
-            float tc = 1.05f;
-            float rc = 1.5f;
+            float to = 1.005f/100;
+            float ro = 1.05f/100;
+            float tc = 1.05f/100;
+            float rc = 1.5f/100;
             
             if(input.objTansXNeg)   selected.translate(-to, 0f, 0f);
             if(input.objTansXPos)   selected.translate(to, 0f, 0f);
@@ -232,8 +256,8 @@ public class Scene implements GLEventListener {
             if(input.objRotZPos)    selected.rotate(0f, 0f, -ro);
             if(input.objRotZNeg)    selected.rotate(0f, 0f, ro);
 
-            if(input.objDec)        selected.scale(0.9f);
-            if(input.objInc)        selected.scale(1.1f);
+            if(input.objDec)        selected.scale(0.99f);
+            if(input.objInc)        selected.scale(1.01f);
 
             if(input.camTransXNeg)  camera.translate(-tc, 0f, 0f);
             if(input.camTransXPos)  camera.translate(tc, 0f, 0f);
