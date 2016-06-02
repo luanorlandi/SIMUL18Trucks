@@ -30,6 +30,7 @@ public class Scene implements GLEventListener {
     private final String frontWheelsPath;
     private final String backWheels1Path;
     private final String backWheels2Path;
+    private final String murciWheelsPath;
     
     private Bridge bridge;
     private ArrayList<Vehicle> cars;
@@ -49,11 +50,12 @@ public class Scene implements GLEventListener {
         input = Input.getInstance();
         
         bridgeFilePath = "./model/bridge/newBridge.obj";
-        carFilePath = "./data/murci/murcilego.obj";
+        carFilePath = "./model/murci/murci.obj";
         truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
         frontWheelsPath = "./model/Wheels/FrontWheels/FrontWheels.obj";
         backWheels1Path = "./model/Wheels/BackWheels1/BackWheels1.obj";
         backWheels2Path = "./model/Wheels/BackWheels2/BackWheels2.obj";
+        murciWheelsPath = "./model/murciWheels/murciwheels.obj";
     }
     
     public static Scene getInstance() {
@@ -121,7 +123,8 @@ public class Scene implements GLEventListener {
         cars.get(0).translate(-29.00f, -0.97f, 0.237f);
         cars.get(0).rotate(0.0f, 90.0f, 0.0f);
         cars.get(0).scale(0.437f);
-        
+        cars.get(0).setSpeed(0.01f);
+        cars.get(0).setAcceleration(0.0004f);
         
         objects = new ArrayList<>();
         objects.add(truck);
@@ -150,12 +153,12 @@ public class Scene implements GLEventListener {
         cars.get(0).setTranslation(-0.277f);
         cars.get(0).setWheelTranslation(-0.277f);
        
-        cars.get(0).setAcceleration(0.0002f);
+        
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
         illumination.bind();
-        camera.followObject(truck);
+        camera.followObject(cars.get(0));
         camera.perpective();
         
         bridge.draw();
