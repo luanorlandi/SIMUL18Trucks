@@ -120,11 +120,26 @@ public class Scene implements GLEventListener {
         
         cars = new ArrayList<>();
         cars.add(car);
-        cars.get(0).translate(-29.00f, -0.97f, 0.237f);
-        cars.get(0).rotate(0.0f, 90.0f, 0.0f);
+        cars.get(0).translate(-29.00f, -0.99f, 0.237f);
+        cars.get(0).rotate(-1.0f, 90.0f, 0.0f);
         cars.get(0).scale(0.437f);
-        cars.get(0).setSpeed(0.01f);
-        cars.get(0).setAcceleration(0.0004f);
+        cars.get(0).setSpeed(0.2f);
+        //cars.get(0).setAcceleration(0.0004f);
+        cars.get(0).setTranslation(-0.260f);
+        cars.get(0).setWheelTranslation(-0.316f);
+        
+        Wheel murcifrontWheels = new Wheel("murcifrontWheels", gl, shader, murciWheelsPath);
+        murcifrontWheels.translate(-28.749f, -1.06f, 0.237f);
+        murcifrontWheels.rotate(0.0f, 90.0f, 0.0f);
+        murcifrontWheels.scale(0.255f);
+        
+        Wheel murcibackWheels = new Wheel("murcibackWheels", gl, shader, murciWheelsPath);
+        murcibackWheels.translate(-29.297f, -1.06f, 0.237f);
+        murcibackWheels.rotate(0.0f, 90.0f, 0.0f);
+        murcibackWheels.scale(0.255f);
+        
+        cars.get(0).getWheels().add(murcifrontWheels);
+        cars.get(0).getWheels().add(murcibackWheels);
         
         objects = new ArrayList<>();
         objects.add(truck);
@@ -135,6 +150,8 @@ public class Scene implements GLEventListener {
         objects.add(frontWheels);
         objects.add(backWheels1);
         objects.add(backWheels2);
+        objects.add(murcifrontWheels);
+        objects.add(murcibackWheels);
         
         selected = objects.get(0);
         selectedId = 0;
@@ -150,15 +167,11 @@ public class Scene implements GLEventListener {
         processInput();
         
         cars.get(0).move(bridge);
-        cars.get(0).setTranslation(-0.277f);
-        cars.get(0).setWheelTranslation(-0.277f);
-       
-        
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
         illumination.bind();
-        camera.followObject(cars.get(0));
+        camera.followObject(truck);
         camera.perpective();
         
         bridge.draw();
@@ -171,8 +184,17 @@ public class Scene implements GLEventListener {
         bridge.reposition(truck.getPosX());
         bridge.draw();
         
-        cars.get(0).draw();
-        
+        /*Car number 0*/
+        cars.get(0).draw();  
+        for (Wheel mw : cars.get(0).getWheels()) {
+            mw.draw();
+        }         
+        if (cars.get(0).getPosX() > bridge.getBridgeList().get(2).getPosX()) {
+            cars.get(0).setPosX(bridge.getBridgeList().get(0).getPosX());
+            cars.get(0).getWheels().get(0).setPosX(bridge.getBridgeList().get(0).getPosX() + 0.251f);
+            cars.get(0).getWheels().get(1).setPosX(bridge.getBridgeList().get(0).getPosX() - 0.297f);
+        }
+          
         gl.glFlush();
     }
 
