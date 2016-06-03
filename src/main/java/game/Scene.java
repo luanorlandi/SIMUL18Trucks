@@ -16,6 +16,7 @@ public class Scene implements GLEventListener {
     private static Scene scene;
     
     private final Shader shader;
+    private final Shader shaderSkybox;
     private GL3 gl;
     
     private final Illumination illumination;    /* class config for light */
@@ -24,6 +25,7 @@ public class Scene implements GLEventListener {
     
     public Camera camera;
     
+    private final String skyboxFilePath;
     private final String bridgeFilePath;
     private final String carFilePath;
     private final String truckFilePath;
@@ -31,6 +33,8 @@ public class Scene implements GLEventListener {
     private final String backWheels1Path;
     private final String backWheels2Path;
     private final String murciWheelsPath;
+    
+    private Object skybox;
     
     private Bridge bridge;
     private ArrayList<Vehicle> cars;
@@ -45,10 +49,14 @@ public class Scene implements GLEventListener {
         shader = ShaderFactory.getInstance(
             ShaderFactory.ShaderType.COMPLETE_SHADER);
         
+        shaderSkybox = ShaderFactory.getInstance(
+            ShaderFactory.ShaderType.COMPLETE_SHADER);
+        
         illumination = new Illumination();
         
         input = Input.getInstance();
         
+        skyboxFilePath = "./model/Skybox/skybox.obj";
         bridgeFilePath = "./model/bridge/newBridge.obj";
         carFilePath = "./model/murci/murci.obj";
         truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
@@ -77,17 +85,21 @@ public class Scene implements GLEventListener {
 
         gl.glEnable(GL.GL_DEPTH_TEST);
         gl.glEnable(GL.GL_CULL_FACE);
+        gl.glCullFace(GL.GL_BACK);
         
         shader.init(gl);
+        shaderSkybox.init(gl);
         shader.bind();
         
-        illumination.init(gl, shader);
+//        illumination.init(gl, shader);
         
         camera = new Camera(gl, shader);
         camera.setPosX(-31.70f);
         camera.setPosY(-0.46f);
         camera.setPosZ(-0.79f);
         
+        skybox = new Object("skybox", gl, shaderSkybox, skyboxFilePath);
+                
         bridge = new Bridge(gl, shader, bridgeFilePath);
         
         truck = new Vehicle("truck", gl, shader, truckFilePath);
@@ -153,7 +165,8 @@ public class Scene implements GLEventListener {
         objects.add(murcifrontWheels);
         objects.add(murcibackWheels);
         
-        selected = objects.get(0);
+        //selected = objects.get(0);
+        selected = skybox;
         selectedId = 0;
     }
 
@@ -170,9 +183,20 @@ public class Scene implements GLEventListener {
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
-        illumination.bind();
+        
+//        illumination.bind();
         camera.followObject(truck);
         camera.perpective();
+        
+//        shaderSkybox.bind();
+        gl.glDisable(GL.GL_DEPTH_TEST);
+        
+        skybox.setPosX(camera.getPosX());
+        skybox.setPosY(camera.getPosY());
+        skybox.setPosZ(camera.getPosZ());
+        skybox.draw();
+        gl.glEnable(GL.GL_DEPTH_TEST);
+//        shader.bind();
         
         bridge.draw();
         truck.draw();
