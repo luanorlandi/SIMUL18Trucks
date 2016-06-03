@@ -27,7 +27,7 @@ public class Scene implements GLEventListener {
     
     private final String skyboxFilePath;
     private final String bridgeFilePath;
-    private final String carFilePath;
+    private String carFilePath;
     private final String truckFilePath;
     private final String frontWheelsPath;
     private final String backWheels1Path;
@@ -56,8 +56,8 @@ public class Scene implements GLEventListener {
         
         input = Input.getInstance();
         
+        bridgeFilePath = "./model/bridge/bridge.obj";
         skyboxFilePath = "./model/Skybox/skybox.obj";
-        bridgeFilePath = "./model/bridge/newBridge.obj";
         carFilePath = "./model/murci/murci.obj";
         truckFilePath = "./model/Ogre_Semi/Ogre_Semi.obj";
         frontWheelsPath = "./model/Wheels/FrontWheels/FrontWheels.obj";
@@ -104,30 +104,33 @@ public class Scene implements GLEventListener {
         
         truck = new Vehicle("truck", gl, shader, truckFilePath);
         truck.scale(1.1f);
-        truck.translate(-29.00f, -0.74f, -0.79f);
+        truck.translate(-29.00f, -0.74f, 0.748f);
         truck.rotate(0.0f, 90.0f, 0.0f);
         truck.setTranslation(0);
         truck.setWheelTranslation(-0.277f);
+        truck.setMaxReverse(-0.05f);
+        truck.setMaxSpeed(0.2f);
         
         Wheel frontWheels = new Wheel("frontWheels", gl, shader, frontWheelsPath);
         frontWheels.scale(1.702f);
-        frontWheels.translate(-28.395f, -1.02f, -0.79f);
+        frontWheels.translate(-28.395f, -1.02f, 0.748f);
         frontWheels.rotate(0.0f, 90.0f, 0.0f);
         
         Wheel backWheels1 = new Wheel("backWheels1", gl, shader, backWheels1Path);
         backWheels1.scale(0.748f);
-        backWheels1.translate(-29.395f, -1.025f, -0.78f);
+        backWheels1.translate(-29.395f, -1.025f, 0.747f);
         backWheels1.rotate(0.0f, 90.0f, 0.0f);
 
         Wheel backWheels2 = new Wheel("backWheels2", gl, shader, backWheels2Path);
         backWheels2.scale(0.512f);
-        backWheels2.translate(-29.63f, -1.025f, -0.78f);
+        backWheels2.translate(-29.63f, -1.025f, 0.747f);
         backWheels2.rotate(0.0f, 90.0f, 0.0f);
         
         truck.getWheels().add(frontWheels);
         truck.getWheels().add(backWheels1);
         truck.getWheels().add(backWheels2);
         
+        carFilePath = "./model/murci0/murci0.obj";
         Vehicle car = new Vehicle("car", gl, shader, carFilePath);
         
         cars = new ArrayList<>();
@@ -135,35 +138,60 @@ public class Scene implements GLEventListener {
         cars.get(0).translate(-29.00f, -0.99f, 0.237f);
         cars.get(0).rotate(-1.0f, 90.0f, 0.0f);
         cars.get(0).scale(0.437f);
-        cars.get(0).setSpeed(0.2f);
-        //cars.get(0).setAcceleration(0.0004f);
+        cars.get(0).setSpeed(0.21f);
         cars.get(0).setTranslation(-0.260f);
         cars.get(0).setWheelTranslation(-0.316f);
         
-        Wheel murcifrontWheels = new Wheel("murcifrontWheels", gl, shader, murciWheelsPath);
-        murcifrontWheels.translate(-28.749f, -1.06f, 0.237f);
-        murcifrontWheels.rotate(0.0f, 90.0f, 0.0f);
-        murcifrontWheels.scale(0.255f);
+        Wheel murci0frontWheels = new Wheel("murci0frontWheels", gl, shader, murciWheelsPath);
+        murci0frontWheels.translate(-28.749f, -1.06f, 0.237f);
+        murci0frontWheels.rotate(0.0f, 90.0f, 0.0f);
+        murci0frontWheels.scale(0.255f);
         
-        Wheel murcibackWheels = new Wheel("murcibackWheels", gl, shader, murciWheelsPath);
-        murcibackWheels.translate(-29.297f, -1.06f, 0.237f);
-        murcibackWheels.rotate(0.0f, 90.0f, 0.0f);
-        murcibackWheels.scale(0.255f);
+        Wheel murci0backWheels = new Wheel("murci0backWheels", gl, shader, murciWheelsPath);
+        murci0backWheels.translate(-29.297f, -1.06f, 0.237f);
+        murci0backWheels.rotate(0.0f, 90.0f, 0.0f);
+        murci0backWheels.scale(0.255f);
         
-        cars.get(0).getWheels().add(murcifrontWheels);
-        cars.get(0).getWheels().add(murcibackWheels);
+        cars.get(0).getWheels().add(murci0frontWheels);
+        cars.get(0).getWheels().add(murci0backWheels);
         
+        carFilePath = "./model/murci1/murci1.obj";
+        car = new Vehicle("car", gl, shader, carFilePath);
+        cars.add(car);
+        cars.get(1).translate(-29.00f, -0.99f, -0.228f);
+        cars.get(1).rotate(0.0f, 270.0f, 0.0f);
+        cars.get(1).scale(0.437f);
+        cars.get(1).setSpeed(-0.15f);
+        cars.get(1).setTranslation(-0.260f);
+        cars.get(1).setWheelTranslation(-0.316f);
+        
+        Wheel murci1frontWheels = new Wheel("murci1frontWheels", gl, shader, murciWheelsPath);
+        murci1frontWheels.translate(-29.241f, -1.06f, -0.228f);
+        murci1frontWheels.rotate(0.0f, 90.0f, 0.0f);
+        murci1frontWheels.scale(0.255f);
+        
+        Wheel murci1backWheels = new Wheel("murci1backWheels", gl, shader, murciWheelsPath);
+        murci1backWheels.translate(-28.704f, -1.06f, -0.228f);
+        murci1backWheels.rotate(0.0f, 90.0f, 0.0f);
+        murci1backWheels.scale(0.255f);
+        
+        cars.get(1).getWheels().add(murci1frontWheels);
+        cars.get(1).getWheels().add(murci1backWheels);
+              
         objects = new ArrayList<>();
         objects.add(truck);
         objects.add(cars.get(0));
+        objects.add(cars.get(1));
         objects.add(bridge.getBridgeList().get(0));
         objects.add(bridge.getBridgeList().get(1));
         objects.add(bridge.getBridgeList().get(2));
         objects.add(frontWheels);
         objects.add(backWheels1);
         objects.add(backWheels2);
-        objects.add(murcifrontWheels);
-        objects.add(murcibackWheels);
+        objects.add(murci0frontWheels);
+        objects.add(murci0backWheels);
+        objects.add(murci1frontWheels);
+        objects.add(murci1backWheels);
         
         //selected = objects.get(0);
         selected = skybox;
@@ -180,6 +208,7 @@ public class Scene implements GLEventListener {
         processInput();
         
         cars.get(0).move(bridge);
+        cars.get(1).move(bridge);
         
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         
@@ -210,15 +239,25 @@ public class Scene implements GLEventListener {
         
         /*Car number 0*/
         cars.get(0).draw();  
-        for (Wheel mw : cars.get(0).getWheels()) {
-            mw.draw();
+        for (Wheel w : cars.get(0).getWheels()) {
+            w.draw();
         }         
         if (cars.get(0).getPosX() > bridge.getBridgeList().get(2).getPosX()) {
             cars.get(0).setPosX(bridge.getBridgeList().get(0).getPosX());
             cars.get(0).getWheels().get(0).setPosX(bridge.getBridgeList().get(0).getPosX() + 0.251f);
             cars.get(0).getWheels().get(1).setPosX(bridge.getBridgeList().get(0).getPosX() - 0.297f);
         }
-          
+         
+        /*Car number 1*/
+        cars.get(1).draw();  
+        for (Wheel w : cars.get(1).getWheels()) {
+            w.draw();
+        }   
+        if (cars.get(1).getPosX() < bridge.getBridgeList().get(0).getPosX()) {
+            cars.get(1).setPosX(bridge.getBridgeList().get(2).getPosX());
+            cars.get(1).getWheels().get(0).setPosX(bridge.getBridgeList().get(2).getPosX() - 0.251f);
+            cars.get(1).getWheels().get(1).setPosX(bridge.getBridgeList().get(2).getPosX() + 0.297f);
+        }
         gl.glFlush();
     }
 
