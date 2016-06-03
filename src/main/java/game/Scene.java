@@ -96,7 +96,7 @@ public class Scene implements GLEventListener {
         truck.rotate(0.0f, 90.0f, 0.0f);
         truck.setTranslation(0);
         truck.setWheelTranslation(-0.277f);
-        truck.setMaxReverse(-0.2f);
+        truck.setMaxReverse(-0.05f);
         truck.setMaxSpeed(0.2f);
         
         Wheel frontWheels = new Wheel("frontWheels", gl, shader, frontWheelsPath);
@@ -149,7 +149,7 @@ public class Scene implements GLEventListener {
         cars.get(1).translate(-29.00f, -0.99f, -0.228f);
         cars.get(1).rotate(0.0f, 270.0f, 0.0f);
         cars.get(1).scale(0.437f);
-        cars.get(1).setSpeed(-0.1f);
+        cars.get(1).setSpeed(-0.15f);
         cars.get(1).setTranslation(-0.260f);
         cars.get(1).setWheelTranslation(-0.316f);
         
