@@ -1,5 +1,5 @@
-# Blender MTL File: 'bridge.blend'
-# Material Count: 20
+# Blender MTL File: 'None'
+# Material Count: 22
 
 newmtl Dry_grass
 Ns 0.000000
@@ -56,6 +56,17 @@ d 1.000000
 illum 2
 map_Kd Grey_Rock.jpg
 
+newmtl Material.001
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd  faixa.png
+
 newmtl Metal0
 Ns 15.686275
 Ka 0.000000 0.000000 0.000000
@@ -68,6 +79,17 @@ illum 2
 map_Kd Metal0.jpg
 
 newmtl Metal1
+Ns 15.686275
+Ka 0.000000 0.000000 0.000000
+Kd 0.410314 0.471725 0.478240
+Ks 0.666667 0.839216 0.976471
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Metal1.jpg
+
+newmtl Metal1.001
 Ns 15.686275
 Ka 0.000000 0.000000 0.000000
 Kd 0.410314 0.471725 0.478240
@@ -210,13 +232,13 @@ d 1.000000
 illum 2
 map_Kd _V9_GenericRock.jpg
 
-newmtl asphalt
-Ns 0.000000
-Ka 0.000000 0.000000 0.000000
-Kd 0.261573 0.261136 0.260263
-Ks 0.603922 0.654902 0.686275
+newmtl newAsphalt
+Ns 92.156863
+Ka 0.100000 0.100000 0.100000
+Kd 0.040000 0.040000 0.040000
+Ks 0.050000 0.050000 0.050000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd asphalt.jpg
+map_Kd newAsphalt.jpg
