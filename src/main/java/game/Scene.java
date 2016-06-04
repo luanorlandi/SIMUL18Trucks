@@ -50,7 +50,7 @@ public class Scene implements GLEventListener {
             ShaderFactory.ShaderType.COMPLETE_SHADER);
         
         shaderSkybox = ShaderFactory.getInstance(
-            ShaderFactory.ShaderType.COMPLETE_SHADER);
+            ShaderFactory.ShaderType.SKYBOX_SHADER);
         
         illumination = new Illumination();
         
@@ -91,7 +91,7 @@ public class Scene implements GLEventListener {
         shaderSkybox.init(gl);
         shader.bind();
         
-//        illumination.init(gl, shader);
+        illumination.init(gl, shader);
         
         camera = new Camera(gl, shader);
         camera.setPosX(-31.70f);
@@ -99,6 +99,7 @@ public class Scene implements GLEventListener {
         camera.setPosZ(-0.79f);
         
         skybox = new Object("skybox", gl, shaderSkybox, skyboxFilePath);
+        skybox.rotate(0.0f, 180.0f, 0.0f);
                 
         bridge = new Bridge(gl, shader, bridgeFilePath);
         
@@ -205,28 +206,27 @@ public class Scene implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable glad) {
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         processInput();
         
         cars.get(0).move(bridge);
         cars.get(1).move(bridge);
         
-        gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
-        
-        
-//        illumination.bind();
         camera.followObject(truck);
         camera.perpective();
         
-//        shaderSkybox.bind();
-        gl.glDisable(GL.GL_DEPTH_TEST);
+        illumination.bindSkybox(camera.getPosX(),
+                camera.getPosY(), camera.getPosZ());
         
+        gl.glDisable(GL.GL_DEPTH_TEST);
         skybox.setPosX(camera.getPosX());
         skybox.setPosY(camera.getPosY());
         skybox.setPosZ(camera.getPosZ());
         skybox.draw();
         gl.glEnable(GL.GL_DEPTH_TEST);
-//        shader.bind();
-        
+
+        illumination.bindSun();
+
         bridge.draw();
         truck.draw();
         
@@ -247,7 +247,8 @@ public class Scene implements GLEventListener {
             cars.get(0).getWheels().get(0).setPosX(bridge.getBridgeList().get(0).getPosX() + 0.251f);
             cars.get(0).getWheels().get(1).setPosX(bridge.getBridgeList().get(0).getPosX() - 0.297f);
         }
-         
+        cars.get(0).draw();  
+        cars.get(1).draw();  
         /*Car number 1*/
         cars.get(1).draw();  
         for (Wheel w : cars.get(1).getWheels()) {
@@ -258,6 +259,7 @@ public class Scene implements GLEventListener {
             cars.get(1).getWheels().get(0).setPosX(bridge.getBridgeList().get(2).getPosX() - 0.251f);
             cars.get(1).getWheels().get(1).setPosX(bridge.getBridgeList().get(2).getPosX() + 0.297f);
         }
+        
         gl.glFlush();
     }
 
