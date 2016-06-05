@@ -213,6 +213,7 @@ public class Scene implements GLEventListener {
         camera.followObject(truck);
         camera.perpective();
         
+        /* draw skybox */
         illumination.bindSkybox(camera.getPosX(),
                 camera.getPosY(), camera.getPosZ());
         
@@ -224,14 +225,14 @@ public class Scene implements GLEventListener {
         gl.glEnable(GL.GL_DEPTH_TEST);
 
         illumination.bindSun();
-
-        bridge.draw();
-        truck.draw();
         
+        /* draw truck */
+        truck.draw();
         for(Wheel w : truck.getWheels()) {
             w.draw();
         }
         
+        /* draw all bridge */
         bridge.reposition(truck.getPosX());
         bridge.draw();
         
