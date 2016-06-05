@@ -323,6 +323,17 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
         robot.mouseMove(centerX, centerY);
     }
     
+    public void moveCursorToCenter() {
+        Point framePos = GameFrame.getInstance().getLocationOnScreen();
+        int height = GameFrame.getInstance().getSize().height;
+        int width = GameFrame.getInstance().getSize().width;
+        
+        int centerX = (framePos.x + (width/2));
+        int centerY = (framePos.y + (height/2));
+        
+        robot.mouseMove(centerX, centerY);
+    }
+    
     public void setCursorLocked(boolean cursorLocked) {
 //        if(windowWidth <= 0 || windowHeight <= 0) {
 //            System.err.println("Cursor not locked: screen size 0");

@@ -91,6 +91,8 @@ public class Scene implements GLEventListener {
         shaderSkybox.init(gl);
         shader.bind();
         
+        input.moveCursorToCenter();
+        
         illumination.init(gl, shader);
         
         camera = new Camera(gl, shader);
