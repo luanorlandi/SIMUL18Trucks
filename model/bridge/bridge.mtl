@@ -1,16 +1,16 @@
 # Blender MTL File: 'None'
-# Material Count: 22
+# Material Count: 20
 
 newmtl Dry_grass
 Ns 0.000000
 Ka 0.000000 0.000000 0.000000
 Kd 0.563382 0.497095 0.300868
-Ks 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
-illum 2
-map_Kd Dry_grass.jpg
+illum 1
+map_Kd sand.jpg
 
 newmtl Flat_gray
 Ns 5.882353
@@ -197,29 +197,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd brickWall.jpg
-
-newmtl Yellow_marble1
-Ns 5.882353
-Ka 0.000000 0.000000 0.000000
-Kd 0.852891 0.773297 0.659592
-Ks 1.000000 1.000000 1.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd Yellow_marble1.jpg
-
-newmtl Yellow_marble2
-Ns 5.882353
-Ka 0.000000 0.000000 0.000000
-Kd 0.852891 0.773297 0.659592
-Ks 1.000000 1.000000 1.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd Yellow_marble2.jpg
+map_Kd stone.jpg
 
 newmtl _V9_GenericRock
 Ns 5.882353
