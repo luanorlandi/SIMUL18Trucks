@@ -2,6 +2,7 @@ package game;
 
 import java.awt.AWTException;
 import java.awt.Cursor;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -24,18 +25,16 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     
     private Robot robot = null;
     private boolean cursorLocked;
-    private int windowWidth;
-    private int windowHeight;
     
     private boolean editMode;
     
     private boolean truckMoveForward;
     private boolean truckMoveBackward;
-    private boolean truckMoveLeft;
-    private boolean truckMoveRight;
     
     private boolean cameraRotateLeft;
     private boolean cameraRotateRight;
+    private boolean cameraRotateUp;
+    private boolean cameraRotateDown;
     
     public boolean objTansXNeg;
     public boolean objTansXPos;
@@ -85,18 +84,15 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
         }
         
         cursorLocked = false;
-
-        windowWidth = 0;
-        windowHeight = 0;
         
         editMode = false;
         
         truckMoveForward = false;
         truckMoveBackward = false;
-        truckMoveLeft = false;
-        truckMoveRight = false;
         cameraRotateLeft = false;
         cameraRotateRight = false;
+        cameraRotateUp = false;
+        cameraRotateLeft = false;
         
         objTansXNeg = false;
         objTansXPos = false;
@@ -139,7 +135,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
                 case KeyEvent.VK_S: truckMoveBackward = true; break;
                 case KeyEvent.VK_Q: cameraRotateLeft = true; break;
                 case KeyEvent.VK_E: cameraRotateRight = true; break;
-                case KeyEvent.VK_D: truckMoveRight = true; break;
+                case KeyEvent.VK_A: cameraRotateUp = true; break;
+                case KeyEvent.VK_D: cameraRotateDown = true; break;
             }
         } else {
             switch (ke.getKeyCode()) {
@@ -201,8 +198,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
                 case KeyEvent.VK_S: truckMoveBackward = false; break;
                 case KeyEvent.VK_Q: cameraRotateLeft = false; break;
                 case KeyEvent.VK_E: cameraRotateRight = false; break;
-                case KeyEvent.VK_A: truckMoveLeft = false; break;
-                case KeyEvent.VK_D: truckMoveRight = false; break;
+                case KeyEvent.VK_A: cameraRotateUp = false; break;
+                case KeyEvent.VK_D: cameraRotateDown = false; break;
             }
         } else {
             switch (ke.getKeyCode()) {
@@ -259,7 +256,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
     @Override
     public void mousePressed(MouseEvent me) {
-        System.out.println("mouse press" + me.getX() + " " + me.getY());
+        
     }
 
     @Override
@@ -274,15 +271,28 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
 
     @Override
     public void mouseExited(MouseEvent me) {
-        if(cursorLocked && robot != null) {
-            repositionCursor(me);
-        }
+        
     }
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent mwe) {
+    public void mouseDragged(MouseEvent e) {
         
     }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if(cursorLocked && robot != null) {
+            repositionCursor(e);
+        }
+    }
+    
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent mwe) {
+        float scroll = (float) (0.05 * mwe.getUnitsToScroll());
+        
+        Scene.getInstance().getCamera().spin(0.0f, 0.0f, scroll);
+    }
+    
     
     public void hideCursor(JFrame frame) {
         BufferedImage cursorImg = new BufferedImage(
@@ -295,42 +305,30 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     }
     
     public void repositionCursor(MouseEvent me) {
-        int x = me.getXOnScreen();
-        int y = me.getYOnScreen();
+        Point framePos = GameFrame.getInstance().getLocationOnScreen();
+        int height = GameFrame.getInstance().getSize().height;
+        int width = GameFrame.getInstance().getSize().width;
         
-        if(me.getX() <= 0) {
-            x = me.getXOnScreen() + windowWidth;
-        }
+        int centerX = (framePos.x + (width/2));
+        int centerY = (framePos.y + (height/2));
         
-        if(me.getX() >= windowWidth) {
-            x = me.getXOnScreen() - windowWidth;
-        }
+        int mouseX = me.getXOnScreen();
+        int mouseY = me.getYOnScreen();
         
-        if(me.getY() <= 0) {
-            y = me.getYOnScreen() + windowHeight;
-        }
+        float spinY = (float) (mouseX - centerX)/4;
+        float spinXZ = (float) (mouseY - centerY)/4;
         
-        if(me.getY() >= windowHeight) {
-            y = me.getYOnScreen() - windowHeight;
-        }
+        Scene.getInstance().getCamera().spin(spinY, spinXZ, 0.0f);
         
-        robot.mouseMove(x, y);
+        robot.mouseMove(centerX, centerY);
     }
     
     public void setCursorLocked(boolean cursorLocked) {
-        if(windowWidth <= 0 || windowHeight <= 0) {
-            System.err.println("Cursor not locked: screen size 0");
-            return;
-        }
+//        if(windowWidth <= 0 || windowHeight <= 0) {
+//            System.err.println("Cursor not locked: screen size 0");
+//            return;
+//        }
         this.cursorLocked = cursorLocked;
-    }
-    
-    public void setWindowWidth(int windowWidth) {
-        this.windowWidth = windowWidth;
-    }
-
-    public void setWindowHeight(int windowHeight) {
-        this.windowHeight = windowHeight;
     }
 
     public boolean isEditMode() {
@@ -349,14 +347,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
         return truckMoveBackward;
     }
     
-    public boolean isTruckMoveLeft() {
-        return truckMoveLeft;
-    }
-
-    public boolean isTruckMoveRight() {
-        return truckMoveRight;
-    }
-    
     public boolean isCameraRotateLeft() {
         return cameraRotateLeft;
     }
@@ -365,13 +355,11 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
         return cameraRotateRight;
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isCameraRotateUp() {
+        return cameraRotateUp;
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isCameraRotateDown() {
+        return cameraRotateDown;
     }
 }

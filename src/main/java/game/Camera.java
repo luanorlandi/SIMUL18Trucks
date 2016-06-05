@@ -32,10 +32,6 @@ public class Camera {
     private float upY;
     private float upZ;
     
-    public float angleXY;
-    public float angleXZ;
-    public float angleYZ;
-    
     public float theta;
     public float phi;
     
@@ -64,12 +60,8 @@ public class Camera {
         upY = 1;
         upZ = 0;
         
-        angleXY = 0;
-        angleXZ = 90.0f;
-        angleYZ = 0;
-        
-        theta = 0;
-        phi = 90.0f;
+        theta = 0.0f;
+        phi = -90.0f;
     }
     
     public void translate(float x, float y, float z) {
@@ -85,13 +77,13 @@ public class Camera {
     }
     
     public void spinX(float theta) {
-        posX -= viewX;
+        posY -= viewY;
         posZ -= viewZ;
         
         posY = (float) (posY*cos(toRadians(theta)) - posZ*sin(toRadians(theta)));
         posZ = (float) (posY*sin(toRadians(theta)) + posZ*cos(toRadians(theta)));
         
-        posX += viewX;
+        posY += viewY;
         posZ += viewZ;
     }
     
@@ -117,32 +109,39 @@ public class Camera {
         posY += viewY;
     }
 
-    public void spin(float angleXY, float angleXZ) {
-        float radiusX = posX-viewX;
-        float radiusY = posY-viewY;
-        float radiusZ = posZ-viewZ;
-        float rho = (float) sqrt(
-            pow(radiusX, 2) +
-            pow(radiusY, 2) +
-            pow(radiusZ, 2));
+    public void spin(float angleY, float angleXZ, float zoom) {
+        /* limit spin */
+        if(phi + angleXZ >= 0.0f) {
+            angleXZ = 0;
+        } else if(phi + angleXZ <= -180.0f) {
+            angleXZ = 0;
+        }
         
-        theta += angleXY;
+        float rho = (float) sqrt(
+            pow(posX-viewX, 2) +
+            pow(posY-viewY, 2) +
+            pow(posZ-viewZ, 2));
+        
+        rho += zoom;
+        
+        theta += angleY;
         phi += angleXZ;
         
-        theta = theta % 360.0f;
+        theta %= 360.0f;
+        phi %= 360.0f;
         
         posX = (float) (viewX + rho *
             sin(toRadians(this.phi)) *
             cos(toRadians(this.theta)));
         
-        posY = (float) (viewY + rho *
+        posZ = (float) (viewZ + rho *
             sin(toRadians(this.phi)) *
             sin(toRadians(this.theta)));
         
-        posZ = (float) (viewZ + rho *
+        posY = (float) (viewY + rho *
             cos(toRadians(this.phi)));
     }
-    
+
     public void followObject(Object obj) {
         viewX = obj.getPosX();
         viewY = obj.getPosY();
@@ -166,7 +165,7 @@ public class Camera {
         viewMatrix.bind();
         
         projectionMatrix.loadIdentity();
-        projectionMatrix.perspective(60, 600/600, 0.1f, 100f);
+        projectionMatrix.perspective(60, 700/700, 0.1f, 100f);
         projectionMatrix.bind();
         
     }

@@ -43,7 +43,7 @@ public class Vehicle extends Object {
         wheels = new ArrayList();
     }
     
-    public void move(Surface surface) {
+    public float move(Surface surface) {
         /* move in x */   
         speed += acceleration;
         
@@ -51,6 +51,8 @@ public class Vehicle extends Object {
         
         float newY = surface.height(this.getPosX());
         float newR = surface.rotation(this.getPosX());
+        
+        float speedY = (newY + translation) - this.getPosY();
         
         this.setPosY(newY + translation);
         this.rotate(newR - pSurfaceAngle, 0, 0);
@@ -72,6 +74,7 @@ public class Vehicle extends Object {
             pSurfaceAngle = newR;       /* new previous angle */
         }
         
+        return speedY;
     }
     
     public void setTranslation(float translation) {

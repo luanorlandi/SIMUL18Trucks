@@ -17,6 +17,8 @@ import javax.swing.JFrame;
  * @author Orlandi
  */
 public class GameFrame extends JFrame {
+    private static GameFrame gameFrame;
+    
     GLProfile profile;
     GLCapabilities cap;
     GLCanvas canvas;
@@ -24,7 +26,7 @@ public class GameFrame extends JFrame {
     
     Scene scene;
     
-    public GameFrame() {
+    private GameFrame() {
         profile = GLProfile.get(GLProfile.GL3);
         
         cap = new GLCapabilities(profile);
@@ -40,24 +42,34 @@ public class GameFrame extends JFrame {
         
         this.setTitle("SIMUL18trucks");
         this.getContentPane().add(canvas);
-        this.setSize(600, 600);
+        this.setSize(700, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         
         Input input = Input.getInstance();
-        input.setWindowWidth(this.getContentPane().getSize().width);
-        input.setWindowHeight(this.getContentPane().getSize().height);
+        input.setCursorLocked(true);
+        input.hideCursor(this);
         
         this.setFocusable(true);
         this.addKeyListener(input);
         this.addMouseListener(input);
+        this.addMouseMotionListener(input);
         this.addMouseWheelListener(input);
         
         canvas.setFocusable(true);
         canvas.addKeyListener(input);
         canvas.addMouseListener(input);
+        canvas.addMouseMotionListener(input);
         canvas.addMouseWheelListener(input);
         
         animator.start();
+    }
+    
+    public static GameFrame getInstance() {
+        if(gameFrame == null) {
+            gameFrame = new GameFrame();
+        }
+        
+        return gameFrame;
     }
 }

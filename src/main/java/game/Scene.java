@@ -23,7 +23,7 @@ public class Scene implements GLEventListener {
     
     private final Input input;
     
-    public Camera camera;
+    private Camera camera;
     
     private final String skyboxFilePath;
     private final String bridgeFilePath;
@@ -95,8 +95,8 @@ public class Scene implements GLEventListener {
         
         camera = new Camera(gl, shader);
         camera.setPosX(-31.70f);
-        camera.setPosY(-0.46f);
-        camera.setPosZ(-0.79f);
+        camera.setPosY(-0.74f);
+        camera.setPosZ(0.748f);
         
         skybox = new Object("skybox", gl, shaderSkybox, skyboxFilePath);
         skybox.rotate(0.0f, 180.0f, 0.0f);
@@ -304,21 +304,15 @@ public class Scene implements GLEventListener {
             else if (!input.isTruckMoveForward() && !input.isTruckMoveBackward()) {
                 truck.setDesacceleration(0.0004f);
             }
-
-            if (input.isTruckMoveRight()) {
-                System.out.println(truck.getSpeed());
-            }
             
-            if(input.isCameraRotateLeft()) {
-                camera.spinY(-1.0f);
-            }
-
-            if(input.isCameraRotateRight()) {
-                camera.spinY(1.0f);
-            }
+            if(input.isCameraRotateLeft()) {camera.spin(1.0f, 0.0f, 0.0f);}
+            if(input.isCameraRotateRight()) {camera.spin(-1.0f, 0.0f, 0.0f);}
             
-            truck.move(bridge);
-            camera.translate(truck.getSpeed(), 0.0f, 0.0f);
+            if(input.isCameraRotateUp()) {camera.spin(0.0f, 1.0f, 0.0f);}
+            if(input.isCameraRotateDown()) {camera.spin(0.0f, -1.0f, 0.0f);}
+            
+            float speedY = truck.move(bridge);
+            camera.translate(truck.getSpeed(), speedY, 0.0f);
         } else {
             float to = 1.005f/100;
             float ro = 1.05f/100;
@@ -365,5 +359,9 @@ public class Scene implements GLEventListener {
 
             if(input.scenePositions) showObjectsPositions();
         }
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 }
