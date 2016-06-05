@@ -235,27 +235,21 @@ public class Scene implements GLEventListener {
         bridge.reposition(truck.getPosX());
         bridge.draw();
         
-        /*Car number 0*/
-        cars.get(0).draw();  
-        for (Wheel w : cars.get(0).getWheels()) {
-            w.draw();
-        }         
-        if (cars.get(0).getPosX() > bridge.getPos3()[0]) {
-            cars.get(0).setPosX(bridge.getPos1()[0]);
-            cars.get(0).getWheels().get(0).setPosX(bridge.getPos1()[0] + 0.251f);
-            cars.get(0).getWheels().get(1).setPosX(bridge.getPos1()[0] - 0.297f);
-        }
-        cars.get(0).draw();  
-        cars.get(1).draw();  
-        /*Car number 1*/
-        cars.get(1).draw();  
-        for (Wheel w : cars.get(1).getWheels()) {
-            w.draw();
-        }   
-        if (cars.get(1).getPosX() < bridge.getPos1()[0]) {
-            cars.get(1).setPosX(bridge.getPos3()[0]);
-            cars.get(1).getWheels().get(0).setPosX(bridge.getPos3()[0] - 0.251f);
-            cars.get(1).getWheels().get(1).setPosX(bridge.getPos3()[0] + 0.297f);
+        /* draw others cars */
+        for(Vehicle c : cars) {
+            c.draw(); 
+            for (Wheel w : c.getWheels()) {
+                w.draw();
+            }         
+            if (c.getPosX() > bridge.getPos3()[0]) {
+                c.setPosX(bridge.getPos1()[0]);
+                c.getWheels().get(0).setPosX(bridge.getPos1()[0] + 0.251f);
+                c.getWheels().get(1).setPosX(bridge.getPos1()[0] - 0.297f);
+            } else if(c.getPosX() < bridge.getPos1()[0]) {
+                c.setPosX(bridge.getPos3()[0]);
+                c.getWheels().get(0).setPosX(bridge.getPos3()[0] - 0.251f);
+                c.getWheels().get(1).setPosX(bridge.getPos3()[0] + 0.297f);
+            }
         }
         
         gl.glFlush();
