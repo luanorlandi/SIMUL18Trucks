@@ -192,12 +192,12 @@ newmtl Yellow_marble0
 Ns 5.882353
 Ka 0.000000 0.000000 0.000000
 Kd 0.852891 0.773297 0.659592
-Ks 1.000000 1.000000 1.000000
+Ks 0.100000 0.100000 0.100000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd Yellow_marble0.jpg
+map_Kd brickWall.jpg
 
 newmtl Yellow_marble1
 Ns 5.882353
@@ -240,5 +240,5 @@ Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
-illum 1
+illum 2
 map_Kd newAsphalt.jpg

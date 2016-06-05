@@ -183,9 +183,7 @@ public class Scene implements GLEventListener {
         objects.add(truck);
         objects.add(cars.get(0));
         objects.add(cars.get(1));
-        objects.add(bridge.getBridgeList().get(0));
-        objects.add(bridge.getBridgeList().get(1));
-        objects.add(bridge.getBridgeList().get(2));
+        objects.add(bridge.getBridgeObject());
         objects.add(frontWheels);
         objects.add(backWheels1);
         objects.add(backWheels2);
@@ -242,10 +240,10 @@ public class Scene implements GLEventListener {
         for (Wheel w : cars.get(0).getWheels()) {
             w.draw();
         }         
-        if (cars.get(0).getPosX() > bridge.getBridgeList().get(2).getPosX()) {
-            cars.get(0).setPosX(bridge.getBridgeList().get(0).getPosX());
-            cars.get(0).getWheels().get(0).setPosX(bridge.getBridgeList().get(0).getPosX() + 0.251f);
-            cars.get(0).getWheels().get(1).setPosX(bridge.getBridgeList().get(0).getPosX() - 0.297f);
+        if (cars.get(0).getPosX() > bridge.getPos3()[0]) {
+            cars.get(0).setPosX(bridge.getPos1()[0]);
+            cars.get(0).getWheels().get(0).setPosX(bridge.getPos1()[0] + 0.251f);
+            cars.get(0).getWheels().get(1).setPosX(bridge.getPos1()[0] - 0.297f);
         }
         cars.get(0).draw();  
         cars.get(1).draw();  
@@ -254,10 +252,10 @@ public class Scene implements GLEventListener {
         for (Wheel w : cars.get(1).getWheels()) {
             w.draw();
         }   
-        if (cars.get(1).getPosX() < bridge.getBridgeList().get(0).getPosX()) {
-            cars.get(1).setPosX(bridge.getBridgeList().get(2).getPosX());
-            cars.get(1).getWheels().get(0).setPosX(bridge.getBridgeList().get(2).getPosX() - 0.251f);
-            cars.get(1).getWheels().get(1).setPosX(bridge.getBridgeList().get(2).getPosX() + 0.297f);
+        if (cars.get(1).getPosX() < bridge.getPos1()[0]) {
+            cars.get(1).setPosX(bridge.getPos3()[0]);
+            cars.get(1).getWheels().get(0).setPosX(bridge.getPos3()[0] - 0.251f);
+            cars.get(1).getWheels().get(1).setPosX(bridge.getPos3()[0] + 0.297f);
         }
         
         gl.glFlush();

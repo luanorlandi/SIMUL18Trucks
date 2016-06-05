@@ -14,30 +14,26 @@ import javax.media.opengl.GL3;
  * @author Orlandi
  */
 public class Bridge implements Surface {
-    private ArrayList<Object> bridgeList;
-    
     private float distance = 59.9f;     /* distance between each bridge */
     
     private final float cY[];           /* coefficients */
     private final float cR[];
     
+    private Object bridgeObject;
+    
+    private float[] pos1;   /* xyz of first bridge */
+    private float[] pos2;   /* xyz of second bridge */
+    private float[] pos3;   /* xyz of third bridge */
+    
     public Bridge(GL3 gl, Shader shader, String path) {
-        bridgeList = new ArrayList();
+        bridgeObject = new Object("bridge1", gl, shader, path);
         
-        bridgeList.add(new Object("bridge1", gl, shader, path));
-        bridgeList.add(new Object("bridge2", gl, shader, path));
-        bridgeList.add(new Object("bridge3", gl, shader, path));
+        bridgeObject.scale(30.0f);
+        bridgeObject.rotate(0.0f, 180.0f, 0.0f);
         
-        bridgeList.get(0).scale(30.0f);
-        bridgeList.get(0).rotate(0.0f, 180.0f, 0.0f);
-        bridgeList.get(0).translate(-distance, 0.0f, 0.0f);
-        
-        bridgeList.get(1).scale(30.0f);
-        bridgeList.get(1).rotate(0.0f, 180.0f, 0.0f);
-        
-        bridgeList.get(2).scale(30.0f);
-        bridgeList.get(2).rotate(0.0f, 180.0f, 0.0f);
-        bridgeList.get(2).translate(distance, 0.0f, 0.0f);
+        pos1 = new float[]{-distance, 0.0f, 0.0f};
+        pos2 = new float[]{0.0f, 0.0f, 0.0f};
+        pos3 = new float[]{distance, 0.0f, 0.0f};
         
         cY = new float[5];
         cY[0] = (float) -1.75687270222880e+002;
@@ -56,17 +52,17 @@ public class Bridge implements Surface {
     
     public void reposition(float truckPos) {
         
-        float forwardTransition = bridgeList.get(1).getPosX() + distance/2;
-        float backwardTransition = bridgeList.get(1).getPosX() - distance/2;
+        float forwardTransition = pos2[0] + distance/2;
+        float backwardTransition = pos2[0] - distance/2;
         
         if(truckPos > forwardTransition) {
-            bridgeList.get(0).translate(distance, 0.0f, 0.0f);
-            bridgeList.get(1).translate(distance, 0.0f, 0.0f);
-            bridgeList.get(2).translate(distance, 0.0f, 0.0f);
+            pos1[0] += distance;    /* increase x */
+            pos2[0] += distance;
+            pos3[0] += distance;
         } else if(truckPos < backwardTransition) {
-            bridgeList.get(0).translate(-distance, 0.0f, 0.0f);
-            bridgeList.get(1).translate(-distance, 0.0f, 0.0f);
-            bridgeList.get(2).translate(-distance, 0.0f, 0.0f);
+            pos1[0] -= distance;    /* decrease x */
+            pos2[0] -= distance;
+            pos3[0] -= distance;
         }
     }
     
@@ -133,12 +129,35 @@ public class Bridge implements Surface {
     }
     
     public void draw() {
-        bridgeList.get(0).draw();
-        bridgeList.get(1).draw();
-        bridgeList.get(2).draw();
+        bridgeObject.setPosX(pos1[0]);
+        bridgeObject.setPosY(pos1[1]);
+        bridgeObject.setPosZ(pos1[2]);
+        bridgeObject.draw();
+        
+        bridgeObject.setPosX(pos2[0]);
+        bridgeObject.setPosY(pos2[1]);
+        bridgeObject.setPosZ(pos2[2]);
+        bridgeObject.draw();
+        
+        bridgeObject.setPosX(pos3[0]);
+        bridgeObject.setPosY(pos3[1]);
+        bridgeObject.setPosZ(pos3[2]);
+        bridgeObject.draw();
     }
 
-    public ArrayList<Object> getBridgeList() {
-        return bridgeList;
+    public Object getBridgeObject() {
+        return bridgeObject;
+    }
+
+    public float[] getPos1() {
+        return pos1;
+    }
+
+    public float[] getPos2() {
+        return pos2;
+    }
+
+    public float[] getPos3() {
+        return pos3;
     }
 }
