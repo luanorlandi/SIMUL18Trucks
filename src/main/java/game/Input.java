@@ -2,7 +2,6 @@ package game;
 
 import java.awt.AWTException;
 import java.awt.Cursor;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -133,6 +132,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
             switch (ke.getKeyCode()) {
                 case KeyEvent.VK_W: truckMoveForward = true; break;
                 case KeyEvent.VK_S: truckMoveBackward = true; break;
+                case KeyEvent.VK_C: Scene.getInstance().getCamera().setFirstPerson(
+                    !Scene.getInstance().getCamera().isFirstPerson()); break;
                 case KeyEvent.VK_Q: cameraRotateLeft = true; break;
                 case KeyEvent.VK_E: cameraRotateRight = true; break;
                 case KeyEvent.VK_A: cameraRotateUp = true; break;

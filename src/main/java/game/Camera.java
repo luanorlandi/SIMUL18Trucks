@@ -32,8 +32,14 @@ public class Camera {
     private float upY;
     private float upZ;
     
+    private final float firstPersonX;
+    private final float firstPersonY;
+    private final float firstPersonZ;
+    
     public float theta;
     public float phi;
+    
+    private boolean firstPerson;
     
     public Camera(GL3 gl, Shader shader) {
         projectionMatrix = new Matrix4();
@@ -43,6 +49,12 @@ public class Camera {
         viewMatrix.init(gl, shader.getUniformLocation("u_viewMatrix"));
         
         ortho = 5;
+        
+        firstPerson = false;
+        
+        firstPersonX = 0.240f;
+        firstPersonY = 0.035f;
+        firstPersonZ = -0.068f;
         
         reset();
     }
@@ -110,6 +122,10 @@ public class Camera {
     }
 
     public void spin(float angleY, float angleXZ, float zoom) {
+        if(firstPerson) {
+            angleXZ *= -1;   /* reverse up down controls */
+        }
+        
         /* limit spin */
         if(phi + angleXZ >= 0.0f) {
             angleXZ = 0;
@@ -123,6 +139,10 @@ public class Camera {
             pow(posZ-viewZ, 2));
         
         rho += zoom;
+        
+        if(firstPerson) {
+            rho = 1.0f;     /* radius fixed */
+        }
         
         theta += angleY;
         phi += angleXZ;
@@ -140,6 +160,55 @@ public class Camera {
         
         posY = (float) (viewY + rho *
             cos(toRadians(this.phi)));
+    }
+    
+    /* if firstPerson is enable then swap view with pos */
+    public void checkFirstPerson() {
+        if(firstPerson) {
+            float tmpX = this.getViewX();
+            float tmpY = this.getViewY();
+            float tmpZ = this.getViewZ();
+
+            viewX = this.getPosX();
+            viewY = this.getPosY();
+            viewZ = this.getPosZ();
+
+            posX = tmpX;
+            posY = tmpY;
+            posZ = tmpZ;
+            
+            posX += firstPersonX;
+            posY += firstPersonY;
+            posZ += firstPersonZ;
+            
+            viewX += firstPersonX;
+            viewY += firstPersonY;
+            viewZ += firstPersonZ;
+        }
+    }
+    
+    public void checkFirstPerson2() {
+        if(firstPerson) {
+            float tmpX = this.getViewX();
+            float tmpY = this.getViewY();
+            float tmpZ = this.getViewZ();
+
+            viewX = this.getPosX();
+            viewY = this.getPosY();
+            viewZ = this.getPosZ();
+
+            posX = tmpX;
+            posY = tmpY;
+            posZ = tmpZ;
+            
+            posX -= firstPersonX;
+            posY -= firstPersonY;
+            posZ -= firstPersonZ;
+            
+            viewX -= firstPersonX;
+            viewY -= firstPersonY;
+            viewZ -= firstPersonZ;
+        }
     }
 
     public void followObject(Object obj) {
@@ -165,7 +234,7 @@ public class Camera {
         viewMatrix.bind();
         
         projectionMatrix.loadIdentity();
-        projectionMatrix.perspective(60, 700/700, 0.1f, 100f);
+        projectionMatrix.perspective(60, 700/700, 0.01f, 100f);
         projectionMatrix.bind();
         
     }
@@ -194,27 +263,27 @@ public class Camera {
         this.posZ = posZ;
     }
 
-    public float getCenterX() {
+    public float getViewX() {
         return viewX;
     }
 
-    public void setCenterX(float centerX) {
+    public void setViewX(float centerX) {
         this.viewX = centerX;
     }
 
-    public float getCenterY() {
+    public float getViewY() {
         return viewY;
     }
 
-    public void setCenterY(float centerY) {
+    public void setViewY(float centerY) {
         this.viewY = centerY;
     }
 
-    public float getCenterZ() {
+    public float getViewZ() {
         return viewZ;
     }
 
-    public void setCenterZ(float centerZ) {
+    public void setViewZ(float centerZ) {
         this.viewZ = centerZ;
     }
 
@@ -240,5 +309,13 @@ public class Camera {
 
     public void setUpZ(float upZ) {
         this.upZ = upZ;
+    }
+
+    public boolean isFirstPerson() {
+        return firstPerson;
+    }
+
+    public void setFirstPerson(boolean firstPerson) {
+        this.firstPerson = firstPerson;
     }
 }

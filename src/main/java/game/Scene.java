@@ -213,6 +213,7 @@ public class Scene implements GLEventListener {
         cars.get(1).move(bridge);
         
         camera.followObject(truck);
+        camera.checkFirstPerson();
         camera.perpective();
         
         /* draw skybox */
@@ -255,6 +256,8 @@ public class Scene implements GLEventListener {
             }
         }
         
+        camera.checkFirstPerson2();
+        
         gl.glFlush();
     }
 
@@ -273,8 +276,8 @@ public class Scene implements GLEventListener {
         
         System.out.format("%nCamera: pos(%.3f, %.3f, %.3f)%n",
                 camera.getPosX(), camera.getPosY(), camera.getPosZ()); 
-        System.out.format("\tviewCenter(%.3f, %.3f, %.3f)%n",
-                camera.getCenterX(), camera.getCenterY(), camera.getCenterZ());
+        System.out.format("\tview(%.3f, %.3f, %.3f)%n",
+                camera.getViewX(), camera.getViewY(), camera.getViewZ());
         System.out.format("\tviewUp(%.3f, %.3f, %.3f)%n",
                 camera.getUpX(), camera.getUpY(), camera.getUpZ()); 
     }
