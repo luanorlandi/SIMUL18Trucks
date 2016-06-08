@@ -142,6 +142,10 @@ public class Camera {
         
         if(firstPerson) {
             rho = 1.0f;     /* radius fixed */
+        } else if(rho < 1.0f) {
+            rho = 1.0f;
+        } else if(rho > 10.0f) {
+            rho = 10.0f;
         }
         
         theta += angleY;
