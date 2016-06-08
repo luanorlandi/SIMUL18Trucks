@@ -18,15 +18,13 @@ public class Vehicle extends Object {
     private float acceleration;
     private float max_speed;
     private float max_reverse;
-            
-    private float velocityX;
-    private float velocityY;
-    private float xPos;
-    private float yPos;
     
     private float translation;
     private float wheeltranslation;
     private float pSurfaceAngle;             /* save previous angle */
+    
+    private boolean interior;
+    private Object dlc;
     
     private final ArrayList<Wheel> wheels;
     
@@ -41,6 +39,7 @@ public class Vehicle extends Object {
         pSurfaceAngle = 0.0f;
         
         wheels = new ArrayList();
+        interior = false;
     }
     
     public float move(Surface surface) {
@@ -57,9 +56,6 @@ public class Vehicle extends Object {
         this.setPosY(newY + translation);
         this.rotate(newR - pSurfaceAngle, 0, 0);
         
-        
-        pSurfaceAngle = newR;       /* new previous angle */
-        
         /* move and rotate all wheels */
         for(Wheel w : wheels) {
             w.translate(speed, 0, 0);
@@ -70,11 +66,40 @@ public class Vehicle extends Object {
 //            w.rotate(newWheelR - w.getpBridgeAngle(), 0, 0);
             w.rotateWheel(speed);
             w.translate(0, wheeltranslation, 0);
-        
-            pSurfaceAngle = newR;       /* new previous angle */
         }
         
+        /* reposition interior */
+        if(interior) {
+            dlc.translate(speed, 0.0f, 0.0f);
+            dlc.setAngleX(surface.rotation(dlc.getPosX()));
+            
+            float interiorY = surface.height(dlc.getPosX());
+            dlc.setPosY(interiorY + 0.060f);
+            
+            float interiorRZ = 0;
+            
+            if(max_speed != 0) {
+                interiorRZ = (float) Math.sin(2*Math.PI*speed/(max_speed/15));
+            } else {
+                System.err.println("Dive by zero avoided in roation interior");
+            }
+            
+            dlc.rotate(0, 0, interiorRZ/3.5f);
+            
+            if(acceleration == 0.0f) {
+                dlc.setAngleZ(dlc.getAngleZ()/1.05f);
+            }
+        }
+        
+        pSurfaceAngle = newR;       /* new previous angle */
+        
         return speedY;
+    }
+    
+    /* add Downloadable Content to vehicle interior */
+    public void addDLC(String name, GL3 gl, Shader shader, String filePath) {
+        dlc = new Object(name, gl, shader, filePath);
+        interior = true;
     }
     
     public void setTranslation(float translation) {
@@ -130,6 +155,7 @@ public class Vehicle extends Object {
             
             if (speed < 0.0005f && speed > -0.0005f) {
                 speed = 0;
+                this.acceleration = 0;
             }
         }
     }
@@ -144,5 +170,17 @@ public class Vehicle extends Object {
 
     public ArrayList<Wheel> getWheels() {
         return wheels;
+    }
+
+    public boolean isInterior() {
+        return interior;
+    }
+
+    public void setInterior(boolean interior) {
+        this.interior = interior;
+    }
+
+    public Object getDlc() {
+        return dlc;
     }
 }

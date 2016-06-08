@@ -6,7 +6,6 @@
 package game;
 
 import br.usp.icmc.vicg.gl.util.Shader;
-import java.util.ArrayList;
 import javax.media.opengl.GL3;
 
 /**
@@ -14,12 +13,12 @@ import javax.media.opengl.GL3;
  * @author Orlandi
  */
 public class Bridge implements Surface {
-    private float distance = 59.9f;     /* distance between each bridge */
+    private final float distance = 59.9f;     /* distance between each bridge */
     
     private final float cY[];           /* coefficients */
     private final float cR[];
     
-    private Object bridgeObject;
+    private final Object bridgeObject;
     
     private float[] pos1;   /* xyz of first bridge */
     private float[] pos2;   /* xyz of second bridge */
@@ -35,12 +34,16 @@ public class Bridge implements Surface {
         pos2 = new float[]{0.0f, 0.0f, 0.0f};
         pos3 = new float[]{distance, 0.0f, 0.0f};
         
-        cY = new float[5];
-        cY[0] = (float) -1.75687270222880e+002;
-        cY[1] = (float) -1.73677692452706e+000;
-        cY[2] = (float) -2.17934186065177e+000;
-        cY[3] = (float) -7.55762104308739e-002;
-        cY[4] = (float)  -8.83708721852949e-004;
+        cY = new float[9];
+        cY[0] = (float) -2.1000e+002;
+        cY[1] = (float) 4.6106e-002;
+        cY[2] = (float) -5.0015e-001;
+        cY[3] = (float) 3.8495e-001;
+        cY[4] = (float) 5.9031e-002;
+        cY[5] = (float) 4.3426e-003;
+        cY[6] = (float) 1.8128e-004;
+        cY[7] = (float) 4.0679e-006;
+        cY[8] = (float) 3.7771e-008;
         
         cR = new float[5];
         cR[0] = (float) 1.06358436789827e+002;

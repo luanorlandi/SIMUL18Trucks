@@ -22,7 +22,7 @@ y2 = [y2(1); y2];
 plot(x2, y2, 'or')
 hold on
 
-degree = 4;
+degree = 8;
 
 X = [];
 
