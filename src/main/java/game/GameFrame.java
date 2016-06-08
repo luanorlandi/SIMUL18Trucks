@@ -41,7 +41,7 @@ public class GameFrame extends JFrame {
         
         animator = new FPSAnimator(canvas, 60);
         
-        this.setTitle("SIMUL18trucks");
+        this.setTitle("SIMUL18Trucks");
         this.getContentPane().add(canvas);
         this.setSize(700, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

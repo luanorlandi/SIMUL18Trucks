@@ -167,7 +167,7 @@ public class Camera {
     }
     
     /* if firstPerson is enable then swap view with pos */
-    public void checkFirstPerson() {
+    public void checkStartFirstPerson() {
         if(firstPerson) {
             float tmpX = this.getViewX();
             float tmpY = this.getViewY();
@@ -191,7 +191,7 @@ public class Camera {
         }
     }
     
-    public void checkFirstPerson2() {
+    public void checkEndFirstPerson() {
         if(firstPerson) {
             float tmpX = this.getViewX();
             float tmpY = this.getViewY();
@@ -239,7 +239,7 @@ public class Camera {
         
         projectionMatrix.loadIdentity();
         if(firstPerson) {
-            projectionMatrix.perspective(60, 700/700, 0.01f, 100f);
+            projectionMatrix.perspective(60, 700/700, 0.02f, 100f);
         } else {
             projectionMatrix.perspective(60, 700/700, 0.1f, 100f);
         }

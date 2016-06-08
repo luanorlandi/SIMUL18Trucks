@@ -278,7 +278,7 @@ public class Scene implements GLEventListener {
         for (Vehicle c : cars) c.move(bridge); 
         
         camera.followObject(truck);
-        camera.checkFirstPerson();
+        camera.checkStartFirstPerson();
         camera.perpective();
         
         /* draw skybox */
@@ -326,7 +326,7 @@ public class Scene implements GLEventListener {
             }
         }
         
-        camera.checkFirstPerson2();
+        camera.checkEndFirstPerson();
         
         gl.glFlush();
     }
