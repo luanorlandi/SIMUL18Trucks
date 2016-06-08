@@ -35,7 +35,7 @@ public class Bridge implements Surface {
         pos3 = new float[]{distance, 0.0f, 0.0f};
         
         cY = new float[9];
-        cY[0] = (float) -2.1000e+002;
+        cY[0] = (float) -1.7300e+002;
         cY[1] = (float) 4.6106e-002;
         cY[2] = (float) -5.0015e-001;
         cY[3] = (float) 3.8495e-001;

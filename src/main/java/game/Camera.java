@@ -234,7 +234,11 @@ public class Camera {
         viewMatrix.bind();
         
         projectionMatrix.loadIdentity();
-        projectionMatrix.perspective(60, 700/700, 0.01f, 100f);
+        if(firstPerson) {
+            projectionMatrix.perspective(60, 700/700, 0.01f, 100f);
+        } else {
+            projectionMatrix.perspective(60, 700/700, 0.1f, 100f);
+        }
         projectionMatrix.bind();
         
     }
