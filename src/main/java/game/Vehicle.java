@@ -80,8 +80,6 @@ public class Vehicle extends Object {
             
             if(max_speed != 0) {
                 interiorRZ = (float) Math.sin(2*Math.PI*speed/(max_speed/15));
-            } else {
-                System.err.println("Dive by zero avoided in roation interior");
             }
             
             dlc.rotate(0, 0, interiorRZ/3.5f);

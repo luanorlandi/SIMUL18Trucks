@@ -81,7 +81,12 @@ for i = 1 : length(ar)
   rplot += ar(i) * xplot.^(i-1);
 end
 
-plot(xplot, rplot, 'g')
+plot(xplot, rplot, 'g'), title('Minimos quadrados para o movimento')
+  legend('Amostras de altura',
+        'Funcao da altura',
+        'Amostras de rotacao',
+        'Funcao da rotacao',
+        'Location','southwest')
 hold off
 
 ay
