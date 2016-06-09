@@ -28,7 +28,7 @@ public class Scene implements GLEventListener {
     private final String skyboxFilePath;
     private final String bridgeFilePath;
     private String carFilePath;
-    private String truckFilePath;
+    private final String truckFilePath;
     private final String frontWheelsPath;
     private final String backWheels1Path;
     private final String backWheels2Path;
@@ -43,6 +43,9 @@ public class Scene implements GLEventListener {
     
     private Object selected;             /* affected by edit mode */
     private int selectedId;              /* position in array objects */
+    
+    private float bridge_start;
+    private float bridge_end;
     
     private ArrayList<Object> objects;  /* list with all objects */
     
@@ -105,7 +108,7 @@ public class Scene implements GLEventListener {
         skybox.rotate(0.0f, 180.0f, 0.0f);
                 
         bridge = new Bridge(gl, shader, bridgeFilePath);
-        
+                
         truck = new Vehicle("truck", gl, shader, truckFilePath);
         truck.scale(1.1f);
         truck.translate(-29.00f, -0.74f, 0.748f);
@@ -216,7 +219,7 @@ public class Scene implements GLEventListener {
         cars.get(3).scale(1.1f);
         cars.get(3).translate(-29.00f, -0.74f, -1.277f);
         cars.get(3).rotate(0.0f, 270.0f, 0.0f);
-        cars.get(3).setSpeed(-0.05f);
+        cars.get(3).setSpeed(-0.08f);
         cars.get(3).setTranslation(0);
         cars.get(3).setWheelTranslation(-0.277f);
         
@@ -239,6 +242,29 @@ public class Scene implements GLEventListener {
         cars.get(3).getWheels().add(truck2backWheels1);
         cars.get(3).getWheels().add(truck2backWheels2);
         
+        carFilePath = "./model/murci3/murci3.obj";
+        car = new Vehicle("car", gl, shader, carFilePath);
+        cars.add(car);
+        cars.get(4).translate(-129.00f, -0.99f, 0.237f);
+        cars.get(4).rotate(-1.0f, 90.0f, 0.0f);
+        cars.get(4).scale(0.437f);
+        cars.get(4).setSpeed(0.21f);
+        cars.get(4).setTranslation(-0.260f);
+        cars.get(4).setWheelTranslation(-0.316f);
+        
+        Wheel murci4frontWheels = new Wheel("murci4frontWheels", gl, shader, murciWheelsPath);
+        murci4frontWheels.translate(-128.749f, -1.06f, 0.237f);
+        murci4frontWheels.rotate(0.0f, 90.0f, 0.0f);
+        murci4frontWheels.scale(0.255f);
+        
+        Wheel murci4backWheels = new Wheel("murci4backWheels", gl, shader, murciWheelsPath);
+        murci4backWheels.translate(-129.297f, -1.06f, 0.237f);
+        murci4backWheels.rotate(0.0f, 90.0f, 0.0f);
+        murci4backWheels.scale(0.255f);
+        
+        cars.get(4).getWheels().add(murci4frontWheels);
+        cars.get(4).getWheels().add(murci4backWheels);
+        
         objects = new ArrayList<>();
         objects.add(truck);
         objects.add(truck.getDlc());
@@ -246,6 +272,7 @@ public class Scene implements GLEventListener {
         objects.add(cars.get(1));
         objects.add(cars.get(2));
         objects.add(cars.get(3));
+        objects.add(cars.get(4));
 //        objects.add(bridge.getBridgeObject());
 //        objects.add(frontWheels);
 //        objects.add(backWheels1);
@@ -317,12 +344,26 @@ public class Scene implements GLEventListener {
             }         
             if (c.getPosX() > bridge.getPos3()[0]) {
                 c.setPosX(bridge.getPos1()[0]);
-                c.getWheels().get(0).setPosX(bridge.getPos1()[0] + 0.251f);
-                c.getWheels().get(1).setPosX(bridge.getPos1()[0] - 0.297f);
+                if (c.getWheels().size() > 2) {
+                    c.getWheels().get(0).setPosX(bridge.getPos1()[0] - 0.611f);
+                    c.getWheels().get(1).setPosX(bridge.getPos1()[0] + 0.389f);
+                    c.getWheels().get(2).setPosX(bridge.getPos1()[0] + 0.616f);
+                }
+                else {                    
+                    c.getWheels().get(0).setPosX(bridge.getPos1()[0] + 0.251f);
+                    c.getWheels().get(1).setPosX(bridge.getPos1()[0] - 0.297f);
+                }
             } else if(c.getPosX() < bridge.getPos1()[0]) {
                 c.setPosX(bridge.getPos3()[0]);
-                c.getWheels().get(0).setPosX(bridge.getPos3()[0] - 0.251f);
-                c.getWheels().get(1).setPosX(bridge.getPos3()[0] + 0.297f);
+                if (c.getWheels().size() > 2) {
+                    c.getWheels().get(0).setPosX(bridge.getPos3()[0] - 0.611f);
+                    c.getWheels().get(1).setPosX(bridge.getPos3()[0] + 0.389f);
+                    c.getWheels().get(2).setPosX(bridge.getPos3()[0] + 0.616f);
+                }
+                else {
+                    c.getWheels().get(0).setPosX(bridge.getPos3()[0] - 0.251f);
+                    c.getWheels().get(1).setPosX(bridge.getPos3()[0] + 0.297f);
+                }
             }
         }
         
