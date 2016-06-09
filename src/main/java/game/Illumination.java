@@ -32,7 +32,7 @@ public class Illumination {
         light.setPosition(new float[]{sunPos[0], sunPos[1], sunPos[2], 0.0f});
         light.setAmbientColor(new float[]{0.1f, 0.1f, 0.1f, 1.0f});
         light.setDiffuseColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
-        light.setSpecularColor(new float[]{0.1f, 0.1f, 0.1f, 1.0f});
+        light.setSpecularColor(new float[]{0.4f, 0.4f, 0.4f, 1.0f});
         light.bind();
     }
     

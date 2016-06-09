@@ -1,5 +1,5 @@
 # Blender MTL File: 'None'
-# Material Count: 20
+# Material Count: 19
 
 newmtl Dry_grass
 Ns 0.000000
@@ -9,7 +9,7 @@ Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
-illum 1
+illum 2
 map_Kd sand.jpg
 
 newmtl Flat_gray
@@ -148,7 +148,7 @@ newmtl Metallic_Varnish
 Ns 0.000000
 Ka 0.000000 0.000000 0.000000
 Kd 0.823529 0.000000 0.035294
-Ks 0.733333 0.925490 1.000000
+Ks 0.073333 0.092549 0.100000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
@@ -159,7 +159,7 @@ newmtl Pewter
 Ns 17.647059
 Ka 0.000000 0.000000 0.000000
 Kd 0.603922 0.603922 0.603922
-Ks 0.835294 0.921569 1.000000
+Ks 0.417647 0.460784 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
@@ -176,17 +176,6 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd Techno_4___Dirty.jpg
-
-newmtl White_porcelaine
-Ns 160.784314
-Ka 0.000000 0.000000 0.000000
-Kd 0.862745 0.866667 0.905882
-Ks 1.000000 1.000000 1.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd metalBarrier.jpg
 
 newmtl Yellow_marble0
 Ns 5.882353
