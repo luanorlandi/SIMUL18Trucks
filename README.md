@@ -1,5 +1,7 @@
 # SIMUL18Trucks
 
+![Screenshot 1](images/ss1.png)
+
 SIMUL18Trucks it's a simple game made with OpenGL to study Computer Graphics.
 
 ###  Version
