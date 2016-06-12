@@ -6,7 +6,7 @@
   <artifactId>SIMUL18Trucks</artifactId>
   <name>SIMUL18Trucks</name>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>2.0.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,6 +44,23 @@
         <artifactId>maven-source-plugin</artifactId>
         <version>2.2.1</version>
       </plugin>
+	  
+		<plugin>
+		  <!-- Build an executable JAR -->
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-jar-plugin</artifactId>
+		  <version>2.4</version>
+		  <configuration>
+			<archive>
+			  <manifest>
+				<addClasspath>true</addClasspath>
+				<classpathPrefix>lib/</classpathPrefix>
+				<mainClass>game.Main</mainClass>
+			  </manifest>
+			</archive>
+		  </configuration>
+		</plugin>
+	
     </plugins>
   </build>
 
