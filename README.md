@@ -21,6 +21,8 @@ When opening on a IDE it will need to download dependencies of Maven. Once done,
 - W and S move forward and backward
 - C changes for first person view (press again to go back for third person view)
 
+![Screenshot 2](images/2.png)
+
 ### Credits
 
 Started with the [project of Paulovich][credits] 
