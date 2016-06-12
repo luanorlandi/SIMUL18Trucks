@@ -8,6 +8,13 @@ SIMUL18Trucks it's a simple game made with OpenGL to study Computer Graphics.
 
 2.0.0
 
+### Features
+
+- Skybox
+- Articulation
+- Full camera control for 1st and 3rd person
+- Smooth movement
+
 ### Download
 
 You can download the stable version 2.0.0 in the tab releases. It requires JDK and OpenGL updated to the most recent versions (others versions may be able run it but are not officialy supported).
