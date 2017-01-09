@@ -32,11 +32,11 @@ When opening on a IDE it will need to download dependencies of Maven. Once done,
 
 ### Demo Video
 
-[![Click to see the video](img/3.png)](https://www.youtube.com/watch?v=KQLpP-CyUnE)
+[![Click to see the video](images/3.png)](https://www.youtube.com/watch?v=KQLpP-CyUnE)
 
 ### Credits
 
-Started with the [project of Paulovich][credits] 
+Started with the [project of Paulovich][credits]
 
 ### License
 
