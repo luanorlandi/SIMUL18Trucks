@@ -30,6 +30,10 @@ When opening on a IDE it will need to download dependencies of Maven. Once done,
 
 ![Screenshot 2](images/2.png)
 
+### Demo Video
+
+[![Click to see the video](img/3.png)](https://www.youtube.com/watch?v=KQLpP-CyUnE)
+
 ### Credits
 
 Started with the [project of Paulovich][credits] 
